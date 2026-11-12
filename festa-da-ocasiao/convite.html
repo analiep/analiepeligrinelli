@@ -16,7 +16,7 @@ body{
   padding-left:max(16px,env(safe-area-inset-left,0px));
   padding-right:max(16px,env(safe-area-inset-right,0px));
 }
-body.tremor{animation:tremor .5s linear}
+.tremor{animation:tremor .5s linear}
 body::before{
   content:""; position:fixed; inset:0; pointer-events:none; z-index:50; opacity:.16;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
@@ -128,7 +128,8 @@ a{color:inherit}
 .porta-wrap.aberta .toc{display:none}
 
 /* figura que troca de roupa (item 11) */
-.figura{display:block; width:min(72vw,280px); height:auto; overflow:visible}
+.figura{display:block; height:auto; overflow:visible}
+.arte svg.figura{width:min(40vw,150px); margin:0 auto}
 .figura .corpo path,.figura .corpo circle{fill:none; stroke:var(--fg); stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round}
 .figura .rosto11 path,.figura .rosto11 circle{fill:none; stroke:var(--fg); stroke-width:2.6; stroke-linecap:round}
 .figura .rosto11 .olho{fill:var(--fg); stroke:none}
@@ -146,9 +147,19 @@ a{color:inherit}
 /* Telas 4 e 5: mensagem indisponível */
 .preta{background:#000; margin-left:calc(-1 * max(16px,env(safe-area-inset-left,0px))); margin-right:calc(-1 * max(16px,env(safe-area-inset-right,0px))); padding-left:max(16px,env(safe-area-inset-left,0px)); padding-right:max(16px,env(safe-area-inset-right,0px))}
 .indisp{margin:0; font:400 clamp(44px,12vw,110px)/0.9 "Anton",Impact,sans-serif; text-transform:uppercase; color:var(--fg); text-wrap:balance; max-width:12ch; animation:glitch 2.6s steps(1,end) infinite}
+.carregando{display:grid; gap:18px; width:min(100%,460px)}
+.carregando[hidden]{display:none!important}
+.carregando-txt{margin:0; font:400 clamp(34px,9vw,56px)/1 "Anton",Impact,sans-serif; text-transform:uppercase}
+.barra{height:16px; border:2px solid var(--fg); padding:2px}
+.barra span{display:block; height:100%; width:0; background:var(--acid); transition:width 2.4s cubic-bezier(.3,.6,.4,1), background .2s}
+.barra.falhou span{background:var(--hot)}
+.carregando-sub{margin:0; font-weight:700; text-transform:uppercase; letter-spacing:.14em; font-size:13px; color:var(--dim)}
+.carregando-sub.erro{color:var(--hot)}
+.pontos::after{content:""; animation:pontos 1.2s steps(1,end) infinite}
+@keyframes pontos{0%{content:""}25%{content:"."}50%{content:".."}75%{content:"..."}}
 .indisp-bloco{min-height:85vh; min-height:85svh; display:grid; align-content:center; gap:26px}
 .indisp-txt{margin:0; font:400 clamp(26px,7vw,48px)/1 "Anton",Impact,sans-serif; text-transform:uppercase; text-wrap:balance; max-width:20ch}
-.indisp-txt.final{color:var(--acid)}
+.indisp-txt.final{color:var(--acid); white-space:pre-line}
 
 /* Tela 6: detalhes */
 .detalhes{padding-block:10vh 0}
@@ -199,7 +210,18 @@ h2.titulo em{font-style:normal; color:var(--acid)}
 .fim.on{display:block}
 .fim.preto{background:#000}
 .fim .clarao{position:absolute; inset:0; background:var(--acid); opacity:0; pointer-events:none}
-.fim.on .clarao{animation:clarao .45s steps(3,end) .05s}
+.fim.explode .clarao{animation:clarao-fogo .8s ease-out}
+.fim .contagem{position:absolute; inset:0; display:none; place-content:center; justify-items:center; text-align:center; gap:4px; background:rgba(13,13,12,.92)}
+.fim.contando .contagem{display:grid}
+.contagem-rot{margin:0; font:700 14px "Space Mono",monospace; letter-spacing:.35em; text-transform:uppercase; color:var(--hot)}
+.contagem-num{margin:0; font:400 clamp(170px,50vw,320px)/0.9 "Anton",Impact,sans-serif; color:#ff3b1f; text-shadow:0 0 34px rgba(255,80,20,.85), 8px 8px 0 #000}
+.contagem-num.bate{animation:bate-num .95s ease-out}
+.contagem-relogio{margin:10px 0 0; font:700 26px "Space Mono",monospace; letter-spacing:.22em; color:#ff3b1f; border:3px solid #ff3b1f; padding:6px 16px; box-shadow:0 0 20px rgba(255,59,31,.6), inset 0 0 12px rgba(255,59,31,.35)}
+.fim .bola{position:absolute; left:50%; top:50%; width:40vmax; height:40vmax; margin:-20vmax 0 0 -20vmax; border-radius:50%; background:radial-gradient(circle, #fff 0%, #fff3b0 12%, #ffc93c 26%, #ff7a1a 42%, #e8341c 58%, rgba(120,20,0,.55) 69%, rgba(0,0,0,0) 74%); transform:scale(0); opacity:0; pointer-events:none}
+.fim.explode .bola{animation:bola 1.5s cubic-bezier(.1,.8,.3,1) forwards}
+.fim .chama{position:absolute; left:0; top:0; width:var(--t); height:var(--t); border-radius:50%; background:radial-gradient(circle, rgba(255,250,215,1) 0%, rgba(255,176,46,.95) 28%, rgba(255,77,26,.75) 52%, rgba(200,30,0,0) 72%); filter:blur(7px); mix-blend-mode:screen; transform:translate(-50%,-50%); animation:chama 1.35s cubic-bezier(.15,.7,.3,1) forwards}
+.fim .fumaca{position:absolute; left:0; top:0; width:var(--t); height:var(--t); border-radius:50%; background:radial-gradient(circle, rgba(80,68,60,.85) 0%, rgba(40,35,32,.5) 50%, rgba(0,0,0,0) 72%); filter:blur(4px); transform:translate(-50%,-50%); animation:fumaca 2.6s ease-out forwards}
+.tremor-forte{animation:tremor-forte 1s linear}
 .fim .rajada{position:absolute; left:50%; top:50%; width:0; height:0}
 .fim .peca{position:absolute; left:0; top:0; width:16px; height:16px; background:var(--c); transform:translate(-50%,-50%); animation:voa 1s cubic-bezier(.1,.7,.3,1) forwards}
 .fim .peca.c{border-radius:50%}
@@ -237,6 +259,12 @@ h2.titulo em{font-style:normal; color:var(--acid)}
 @keyframes glitch{0%,88%,100%{transform:none;text-shadow:none}89%{transform:translate(-4px,1px);text-shadow:4px 0 var(--hot),-4px 0 var(--blue)}92%{transform:translate(3px,-1px);text-shadow:-3px 0 var(--acid)}95%{transform:none;text-shadow:none}}
 @keyframes zoom{from{transform:scale(1.08)}to{transform:scale(1)}}
 @keyframes clarao{0%{opacity:0}30%{opacity:1}100%{opacity:0}}
+@keyframes clarao-fogo{0%{opacity:0}8%{opacity:1; background:#fff}35%{opacity:.85; background:#ffb02e}100%{opacity:0; background:#e8341c}}
+@keyframes bate-num{0%{transform:scale(1.6); opacity:0}18%{transform:scale(1); opacity:1}100%{transform:scale(.9); opacity:.8}}
+@keyframes bola{0%{transform:scale(0); opacity:1}35%{transform:scale(1.7); opacity:1}100%{transform:scale(3.6); opacity:0}}
+@keyframes chama{0%{translate:0 0; scale:.3; opacity:1}70%{opacity:1}100%{translate:var(--dx) var(--dy); scale:1.5; opacity:0}}
+@keyframes fumaca{0%{translate:0 0; scale:.4; opacity:0}20%{opacity:.9}100%{translate:var(--dx) var(--dy); scale:2.8; opacity:0}}
+@keyframes tremor-forte{5%{translate:-16px 8px}10%{translate:14px -10px}15%{translate:-12px 6px}20%{translate:12px 10px}30%{translate:-9px -6px}40%{translate:8px 4px}55%{translate:-5px 3px}70%{translate:3px -2px}85%{translate:-1px 1px}100%{translate:0 0}}
 @keyframes voa{0%{translate:0 0; rotate:0deg; opacity:1; scale:.4}80%{opacity:1}100%{translate:var(--dx) var(--dy); rotate:var(--r); opacity:0; scale:1.2}}
 @keyframes tremor{10%{translate:-7px 3px}20%{translate:6px -4px}30%{translate:-5px 2px}40%{translate:5px 4px}50%{translate:-3px -2px}60%{translate:3px 1px}80%{translate:-1px 0}100%{translate:0 0}}
 @keyframes pula{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
@@ -425,6 +453,11 @@ h2.titulo em{font-style:normal; color:var(--acid)}
   <div class="centro">
     <h2 class="indisp" tabindex="-1">Mensagem indisponível.</h2>
     <button class="btn sec grande" type="button" id="btn-tentar">Clique para tentar novamente</button>
+    <div class="carregando" id="carregando" hidden aria-live="polite">
+      <p class="carregando-txt">Carregando mensagem<span class="pontos"></span></p>
+      <div class="barra" id="barra"><span></span></div>
+      <p class="carregando-sub" id="carregando-sub">Tentando recuperar a mensagem</p>
+    </div>
   </div>
 </section>
 
@@ -448,7 +481,7 @@ h2.titulo em{font-style:normal; color:var(--acid)}
   <h2 class="titulo" tabindex="-1">Detalhes</h2>
   <p class="data">19.11</p>
   <p class="horario">Quinta · 19:30</p>
-  <p class="veroa">Véspera de feriado. Ninguém vai ter desculpa para acordar cedo.</p>
+  <p class="veroa">Véspera de feriado: não tem desculpa, ninguém precisa acordar cedo!</p>
   <div class="local">
     <p class="rotulo">Onde</p>
     <p class="nome">Bar 1953</p>
@@ -536,8 +569,14 @@ h2.titulo em{font-style:normal; color:var(--acid)}
 
 <!-- ===== EXPLOSÃO ===== -->
 <div id="fim" class="fim" aria-hidden="true">
-  <div class="clarao"></div>
+  <div class="contagem" id="contagem">
+    <p class="contagem-rot">Autodestruição em</p>
+    <p class="contagem-num" id="contagem-num">5</p>
+    <p class="contagem-relogio" id="contagem-relogio">00:05</p>
+  </div>
+  <div class="bola"></div>
   <div class="rajada" id="rajada"></div>
+  <div class="clarao"></div>
 </div>
 
 <!-- ===== TELÃO (#telao) ===== -->
@@ -854,7 +893,7 @@ h2.titulo em{font-style:normal; color:var(--acid)}
     es.forEach(en => {
       if(en.isIntersecting && !abriuAuto && !respondido && modal.hidden && !$("t3").hidden){
         abriuAuto = true;
-        setTimeout(() => { if(modal.hidden && !respondido) abreModal("resposta"); }, tRed ? 0 : 700);
+        setTimeout(() => { if(modal.hidden && !respondido && !$("t3").hidden) abreModal("resposta"); }, 3000);
       }
     });
   }, {threshold:.6}).observe($("q13"));
@@ -890,41 +929,77 @@ h2.titulo em{font-style:normal; color:var(--acid)}
      ========================================================= */
   function finale(){
     fechaModal();
-    document.body.classList.remove("tremor"); void document.body.offsetWidth;
-    document.body.classList.add("tremor");
     fim.classList.add("on");
+    if(tRed){ explode(); return; }
+    fim.classList.add("contando");
+    const num = $("contagem-num"), rel = $("contagem-relogio");
+    let n = 5;
+    const tique = () => {
+      num.textContent = n; rel.textContent = "00:0" + n;
+      num.classList.remove("bate"); void num.offsetWidth; num.classList.add("bate");
+      const ct = $("contagem"); ct.classList.remove("tremor"); void ct.offsetWidth; ct.classList.add("tremor");
+    };
+    tique();
+    const relogio = setInterval(() => {
+      n--;
+      if(n <= 0){ clearInterval(relogio); explode(); }
+      else tique();
+    }, 1000);
+  }
+  function explode(){
+    fim.classList.remove("contando");
+    fim.classList.add("explode");
+    [$("t3"), fim].forEach(el => { el.classList.remove("tremor", "tremor-forte"); void el.offsetWidth; el.classList.add("tremor-forte"); });
     const r = $("rajada");
     if(!tRed){
-      const cores = ["#d4ff1a","#ff2d7e","#2d3bff","#e9e4d4","#f1efe6"], formas = ["c","s","q"];
-      for(let i = 0; i < 72; i++){
-        const p = document.createElement("i");
-        p.className = "peca " + formas[i % 3];
-        p.style.setProperty("--c", cores[i % cores.length]);
-        const ang = Math.random() * Math.PI * 2, d = 30 + Math.random() * 70;
-        p.style.setProperty("--dx", (Math.cos(ang) * d).toFixed(1) + "vmax");
-        p.style.setProperty("--dy", (Math.sin(ang) * d).toFixed(1) + "vmax");
-        p.style.setProperty("--r", (Math.random() * 720 - 360).toFixed(0) + "deg");
-        p.style.animationDelay = (Math.random() * .15).toFixed(2) + "s";
-        r.appendChild(p);
+      for(let i = 0; i < 70; i++){
+        const c = document.createElement("i");
+        c.className = "chama";
+        const ang = Math.random() * Math.PI * 2, d = 18 + Math.random() * 60;
+        c.style.setProperty("--t", (40 + Math.random() * 110).toFixed(0) + "px");
+        c.style.setProperty("--dx", (Math.cos(ang) * d).toFixed(1) + "vmax");
+        c.style.setProperty("--dy", (Math.sin(ang) * d - 6).toFixed(1) + "vmax");
+        c.style.animationDelay = (Math.random() * .2).toFixed(2) + "s";
+        r.appendChild(c);
+      }
+      for(let i = 0; i < 22; i++){
+        const f = document.createElement("i");
+        f.className = "fumaca";
+        const ang = Math.random() * Math.PI * 2, d = 10 + Math.random() * 35;
+        f.style.setProperty("--t", (120 + Math.random() * 160).toFixed(0) + "px");
+        f.style.setProperty("--dx", (Math.cos(ang) * d).toFixed(1) + "vmax");
+        f.style.setProperty("--dy", (Math.sin(ang) * d - 14).toFixed(1) + "vmax");
+        f.style.animationDelay = (.25 + Math.random() * .3).toFixed(2) + "s";
+        r.appendChild(f);
       }
     }
-    setTimeout(() => fim.classList.add("preto"), tRed ? 0 : 1300);
+    setTimeout(() => fim.classList.add("preto"), tRed ? 0 : 1700);
     setTimeout(() => {
       r.innerHTML = "";
       mostraTela("t4");
-      fim.classList.remove("on", "preto");
-      document.body.classList.remove("tremor");
-    }, tRed ? 200 : 2600);
+      fim.classList.remove("on", "preto", "explode", "contando");
+      [$("t3"), fim, $("contagem")].forEach(el => el.classList.remove("tremor", "tremor-forte"));
+    }, tRed ? 200 : 3300);
   }
 
   const FRASES = {
-    sim: "Que bom que você confirmou a tempo! Bem, seguem os detalhes.",
-    talvez: "Espero que você consiga ir à nossa festa nessa ocasião! Bem, seguem os detalhes.",
-    nao: "Essa ocasião não vai ser a mesma sem você! Vou te mandar os detalhes mesmo assim, na esperança de você mudar de ideia!"
+    sim: "Que bom que você confirmou a tempo!\nBem, seguem os detalhes.",
+    talvez: "Espero que você consiga ir à nossa festa nessa ocasião!\nBem, seguem os detalhes.",
+    nao: "Essa ocasião não vai ser a mesma sem você!\nVou te mandar os detalhes mesmo assim, na esperança de você mudar de ideia!"
   };
   $("btn-tentar").addEventListener("click", () => {
     $("frase-resposta").textContent = FRASES[resposta] || FRASES.sim;
-    mostraTela("t5");
+    const titulo = $("t4").querySelector(".indisp"), botao = $("btn-tentar");
+    const car = $("carregando"), barra = $("barra"), sub = $("carregando-sub");
+    titulo.hidden = true; botao.hidden = true; car.hidden = false;
+    requestAnimationFrame(() => requestAnimationFrame(() => { barra.querySelector("span").style.width = "87%"; }));
+    setTimeout(() => { sub.textContent = "Quase lá"; }, tRed ? 0 : 1300);
+    setTimeout(() => {
+      barra.classList.add("falhou");
+      sub.textContent = "Falha ao carregar: mensagem não encontrada";
+      sub.classList.add("erro");
+    }, tRed ? 100 : 2700);
+    setTimeout(() => mostraTela("t5"), tRed ? 300 : 3900);
   });
   $("btn-detalhes").addEventListener("click", () => {
     $("aviso-falha").hidden = salvouResposta;
