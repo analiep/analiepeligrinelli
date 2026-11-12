@@ -928,8 +928,72 @@ h2.titulo em{font-style:normal; color:var(--acid)}
       try { db = await claude.use("db"); } catch(e){ db = null; }
     } else if(window.parent && window.parent !== window){
       db = bancoWix();
+    } else if(window.FESTA_WIX_CLIENT_ID){
+      db = bancoHeadless(window.FESTA_WIX_CLIENT_ID);
     }
     return db;
+  }
+
+  /* Página publicada num site Wix Headless: grava direto no CMS do site
+     com um token de visitante anônimo (sem login). */
+  function bancoHeadless(clientId){
+    const API = "https://www.wixapis.com";
+    const VKEY = "festaOcasiaoVisitante";
+    const COL = { rsvp: "FestaRSVP", fotos: "FestaFotos" };
+    const carrega = () => { try { return JSON.parse(localStorage.getItem(VKEY) || "null"); } catch(e){ return null; } };
+    const guarda = s => { try { localStorage.setItem(VKEY, JSON.stringify(s)); } catch(e){} };
+    let sessao = null;
+    const pedeToken = corpo => fetch(API + "/oauth2/token", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(corpo) });
+    async function token(){
+      const agora = Math.floor(Date.now() / 1000);
+      let s = sessao || carrega();
+      if(s && s.accessToken && s.expiresAt > agora + 60) return s.accessToken;
+      let r = null;
+      if(s && s.refreshToken) r = await pedeToken({ clientId, grantType: "refresh_token", refreshToken: s.refreshToken });
+      if(!r || !r.ok) r = await pedeToken({ clientId, grantType: "anonymous" });
+      if(!r.ok) throw { code: "unavailable" };
+      const j = await r.json();
+      s = { accessToken: j.access_token, refreshToken: j.refresh_token || (s && s.refreshToken) || null, expiresAt: agora + (j.expires_in || 14400) };
+      sessao = s; guarda(s);
+      return s.accessToken;
+    }
+    async function chama(caminho, corpo){
+      const r = await fetch(API + caminho, { method: "POST", headers: { "Content-Type": "application/json", "Authorization": await token() }, body: JSON.stringify(corpo) });
+      if(!r.ok) throw { code: r.status === 429 ? "resource_exhausted" : (r.status === 400 || r.status === 413) ? "invalid_argument" : "unavailable" };
+      return r.json();
+    }
+    return {
+      collection(nome){
+        const id = COL[nome];
+        return {
+          add: doc => chama("/wix-data/v2/items", { dataCollectionId: id, dataItem: { data: doc } }),
+          where: (campo, op, valor) => ({
+            limit: n => ({
+              get: async () => {
+                const filtro = {}; filtro[campo] = { $eq: valor };
+                const j = await chama("/wix-data/v2/items/query", { dataCollectionId: id, query: { filter: filtro, paging: { limit: n } } });
+                return { size: (j.dataItems || []).length, docs: [] };
+              }
+            })
+          }),
+          orderBy: (campo, dir) => ({
+            limit: n => ({
+              onSnapshot(proximo, erro){
+                const busca = async () => {
+                  try{
+                    const j = await chama("/wix-data/v2/items/query", { dataCollectionId: id, query: { sort: [{ fieldName: campo, order: dir === "desc" ? "DESC" : "ASC" }], paging: { limit: n } } });
+                    proximo({ docs: (j.dataItems || []).map(x => ({ exists: true, data: () => x.data || {} })) });
+                  }catch(e){ if(erro) erro(e); }
+                };
+                busca();
+                const t = setInterval(busca, 15000);
+                return () => clearInterval(t);
+              }
+            })
+          })
+        };
+      }
+    };
   }
 
   /* Dentro de uma página da Wix (elemento Embed HTML): quem guarda os dados
