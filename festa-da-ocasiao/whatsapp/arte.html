@@ -1,0 +1,94 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Mono:wght@400;700&display=swap">
+<style>
+:root{--bg:#0d0d0c;--fg:#f1efe6;--acid:#d4ff1a;--hot:#ff2d7e;--blue:#2d3bff;--paper:#e9e4d4;--ink:#0d0d0c}
+*{box-sizing:border-box;margin:0}
+body{background:var(--bg);color:var(--fg);font-family:"Space Mono",monospace;overflow:hidden}
+.peca{position:relative;overflow:hidden;background:var(--bg)}
+.peca::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.18;
+ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.linhas{position:absolute;inset:0;width:100%;height:100%;opacity:.45}
+.linhas path{fill:none;stroke-width:2;stroke-dasharray:40 26}
+.fita{position:absolute;left:-10%;width:120%;white-space:nowrap;background:var(--hot);color:var(--ink);
+ font:400 26px/1 "Anton",Impact,sans-serif;letter-spacing:.06em;padding:12px 0;border-block:4px solid var(--ink)}
+.fita.b{background:var(--acid)}
+.kicker{font-weight:700;letter-spacing:.32em;text-transform:uppercase;color:var(--acid)}
+.titulo{font-family:"Anton",Impact,sans-serif;text-transform:uppercase;line-height:.84;letter-spacing:-.01em}
+.titulo .vazado{display:block;color:transparent;-webkit-text-stroke:3px var(--fg)}
+.titulo .acid{display:block;color:var(--acid);text-shadow:7px 7px 0 var(--hot)}
+.nomes{font-family:"Anton",Impact,sans-serif;text-transform:uppercase;line-height:1.15}
+.nomes span{background:var(--hot);color:var(--ink);padding:0 .22em;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.btn{display:inline-block;background:var(--acid);color:var(--ink);border:3px solid var(--ink);font-weight:700;text-transform:uppercase;letter-spacing:.12em;box-shadow:8px 8px 0 var(--hot)}
+.portal{position:absolute;border:10px solid var(--fg);border-bottom-width:5px;background:#000;box-shadow:14px 14px 0 var(--blue);perspective:900px}
+.portal .luz{position:absolute;inset:0;background:radial-gradient(circle at 20% 50%,rgba(212,255,26,.95),rgba(212,255,26,.25) 35%,#000 70%)}
+.portal .folha{position:absolute;inset:0;background:var(--paper);border:5px solid var(--ink);
+ box-shadow:inset 0 0 0 16px var(--paper),inset 0 0 0 20px var(--ink);transform-origin:left center;transform:rotateY(-24deg)}
+.portal .folha::after{content:"";position:absolute;right:22px;top:52%;width:18px;height:18px;border-radius:50%;background:var(--ink)}
+.toc{position:absolute;font:400 34px/1 "Anton",Impact,sans-serif;color:var(--hot);transform:rotate(-8deg)}
+.toc.a{color:var(--acid);transform:rotate(6deg)}
+
+/* ----- prévia do link 1200x630 ----- */
+.og{width:1200px;height:630px}
+.og .fita{top:26px;transform:rotate(-3deg)}
+.og .txt{position:absolute;left:64px;top:118px;width:640px}
+.og .kicker{font-size:17px;margin-bottom:14px}
+.og .titulo{font-size:118px}
+.og .nomes{font-size:42px;margin-top:22px}
+.og .btn{font-size:19px;padding:15px 22px;margin-top:26px}
+.og .portal{left:820px;top:150px;width:250px;height:410px}
+.og .toc{left:1095px}
+
+/* ----- imagem vertical 1080x1350 ----- */
+.vt{width:1080px;height:1350px}
+.vt .fita{top:70px;transform:rotate(-4deg);font-size:32px}
+.vt .fita.b{top:auto;bottom:70px;transform:rotate(3deg)}
+.vt .txt{position:absolute;left:80px;top:210px;width:920px}
+.vt .kicker{font-size:22px;margin-bottom:22px}
+.vt .titulo{font-size:178px}
+.vt .nomes{font-size:62px;margin-top:34px}
+.vt .portal{left:640px;top:760px;width:270px;height:430px}
+.vt .toc{left:930px}
+.vt .btn{position:absolute;left:80px;top:1010px;font-size:26px;padding:20px 28px}
+.vt .aviso{position:absolute;left:80px;top:860px;width:500px;font:700 23px/1.45 "Space Mono",monospace;text-transform:uppercase;letter-spacing:.06em;border-left:8px solid var(--hot);padding-left:20px}
+</style></head><body>
+
+<div class="peca og" id="og">
+  <svg class="linhas" viewBox="0 0 1200 630" preserveAspectRatio="none">
+    <path d="M-20 200 C 200 120, 380 300, 620 210 S 1000 120, 1240 230" stroke="#2d3bff"/>
+    <path d="M-20 420 C 220 340, 420 520, 660 430 S 1020 330, 1240 450" stroke="#ff2d7e"/>
+    <path d="M-20 560 C 240 500, 460 640, 700 560 S 1040 480, 1240 590" stroke="#d4ff1a"/>
+  </svg>
+  <div class="fita">ATENÇÃO • ESTA MENSAGEM SE AUTODESTRUIRÁ AO FINAL • ATENÇÃO • ESTA MENSAGEM SE AUTODESTRUIRÁ AO FINAL • ATENÇÃO •</div>
+  <div class="txt">
+    <p class="kicker">Convite · Aniversário</p>
+    <h1 class="titulo"><span class="vazado">Festa da</span><span class="acid">Ocasião</span></h1>
+    <p class="nomes"><span>Analie</span> &amp; <span>Thaíssa</span></p>
+    <span class="btn">Toque para abrir</span>
+  </div>
+  <div class="portal"><div class="luz"></div><div class="folha"></div></div>
+  <span class="toc" style="top:200px">toc</span>
+  <span class="toc a" style="top:290px">toc</span>
+  <span class="toc" style="top:380px">toc</span>
+</div>
+
+<div class="peca vt" id="vt">
+  <svg class="linhas" viewBox="0 0 1080 1350" preserveAspectRatio="none">
+    <path d="M-20 420 C 200 330, 380 540, 600 430 S 900 320, 1100 460" stroke="#2d3bff"/>
+    <path d="M-20 760 C 220 660, 420 880, 640 770 S 940 660, 1100 800" stroke="#ff2d7e"/>
+    <path d="M-20 1120 C 240 1030, 460 1240, 680 1130 S 960 1020, 1100 1160" stroke="#d4ff1a"/>
+  </svg>
+  <div class="fita">ATENÇÃO • ESTA MENSAGEM SE AUTODESTRUIRÁ AO FINAL • ATENÇÃO • ESTA MENSAGEM SE AUTODESTRUIRÁ AO FINAL •</div>
+  <div class="txt">
+    <p class="kicker">Você recebeu um convite</p>
+    <h1 class="titulo"><span class="vazado">Festa da</span><span class="acid">Ocasião</span></h1>
+    <p class="nomes"><span>Analie</span> &amp; <span>Thaíssa</span><br>fazem aniversário</p>
+  </div>
+  <p class="aviso">Tem alguém batendo na porta. Abra antes que ela se feche.</p>
+  <span class="btn">Toque no link ↓</span>
+  <div class="portal"><div class="luz"></div><div class="folha"></div></div>
+  <span class="toc" style="top:790px">toc</span>
+  <span class="toc a" style="top:890px">toc</span>
+  <span class="toc" style="top:990px">toc</span>
+  <div class="fita b">FESTA DA OCASIÃO • VISTA A SUA OCASIÃO • FESTA DA OCASIÃO • VISTA A SUA OCASIÃO • FESTA DA OCASIÃO •</div>
+</div>
+</body></html>
