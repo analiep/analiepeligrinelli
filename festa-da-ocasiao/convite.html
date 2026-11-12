@@ -1,0 +1,1118 @@
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>Festa da Ocasião</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Mono:wght@400;700&display=swap">
+<style>
+/* Festa da Ocasião. Recorte de revista, linhas, bonequinhas de palito, scroll e explosão.
+   Carvão + acid + rosa-choque + azul + papel. Cartaz em Anton, texto em Space Mono. */
+:root{
+  --bg:#0d0d0c; --fg:#f1efe6; --dim:#9c9a90;
+  --acid:#d4ff1a; --hot:#ff2d7e; --blue:#2d3bff; --paper:#e9e4d4; --ink:#0d0d0c;
+  color-scheme:dark;
+}
+body{
+  margin:0; background:var(--bg); color:var(--fg);
+  font-family:"Space Mono",ui-monospace,monospace; font-size:15px; line-height:1.55;
+  overflow-x:hidden; padding-block:0;
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));
+}
+body.tremor{animation:tremor .5s linear}
+body::before{
+  content:""; position:fixed; inset:0; pointer-events:none; z-index:50; opacity:.16;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+*{box-sizing:border-box}
+img{max-width:100%;display:block}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--acid); outline-offset:3px}
+[tabindex="-1"]:focus{outline:none}
+[hidden]{display:none!important}
+.sr{position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap}
+
+/* ===== FUNDO DE LINHAS (parallax) ===== */
+.fundo{position:fixed; inset:-24px; width:calc(100% + 48px); height:calc(100% + 48px); opacity:.3; z-index:0; pointer-events:none; translate:var(--fx,0px) var(--fy,0px); will-change:translate}
+.fundo path{fill:none; stroke:var(--blue); stroke-width:1.4; stroke-dasharray:40 26; animation:flui 9s linear infinite}
+.fundo path:nth-child(2n){stroke:var(--hot); animation-duration:13s}
+.fundo path:nth-child(3n){stroke:var(--acid); animation-duration:17s; stroke-width:.9}
+
+/* ===== PROGRESSO DO SCROLL ===== */
+.progresso{position:fixed; top:env(safe-area-inset-top,0px); left:0; right:0; height:4px; background:var(--acid); transform-origin:0 50%; transform:scaleX(0); z-index:26; pointer-events:none}
+.progresso[hidden]{display:none!important}
+
+/* ===== TELAS ===== */
+.tela{position:relative; z-index:1}
+.tela[hidden]{display:none!important}
+.centro{min-height:100vh; min-height:100svh; display:grid; align-content:center; justify-items:start; gap:26px; padding-block:12vh}
+.flash{position:fixed; inset:0; background:var(--hot); z-index:40; opacity:0; pointer-events:none}
+.flash.on{animation:estouro .5s steps(4,end)}
+
+/* fita de aviso correndo */
+.faixa-aviso{position:absolute; left:-30%; width:160%; white-space:nowrap; font:700 13px "Space Mono",monospace; letter-spacing:.2em; color:var(--hot); opacity:.55; transform:rotate(-6deg); pointer-events:none; overflow:hidden}
+.faixa-aviso span{display:inline-block; animation:faixaInterna 18s linear infinite}
+
+/* Tela 1 */
+.aviso{margin:0; font:400 clamp(44px,12vw,120px)/0.9 "Anton",Impact,sans-serif; text-transform:uppercase; text-wrap:balance; max-width:14ch}
+.aviso em{font-style:normal; display:block; color:var(--acid); animation:glitch 3.4s steps(1,end) infinite}
+.btn{
+  appearance:none; border:2px solid var(--ink); background:var(--acid); color:var(--ink);
+  font:700 14px "Space Mono",monospace; text-transform:uppercase; letter-spacing:.08em;
+  padding:14px 16px; text-decoration:none; display:inline-block; cursor:pointer;
+  box-shadow:5px 5px 0 var(--hot); transition:transform .12s steps(2,end), box-shadow .12s;
+}
+.btn:hover{transform:translate(-2px,-2px); box-shadow:7px 7px 0 var(--hot)}
+.btn:active{transform:translate(3px,3px); box-shadow:0 0 0 var(--hot)}
+.btn.sec{background:transparent; color:var(--fg); border-color:var(--fg); box-shadow:5px 5px 0 var(--blue)}
+.btn:disabled{opacity:.5; cursor:wait}
+.btn.grande{font-size:16px; padding:18px 20px}
+
+/* Tela 2 */
+.pergunta-t{margin:0; font:400 clamp(34px,9vw,72px)/0.94 "Anton",Impact,sans-serif; text-transform:uppercase; text-wrap:balance; max-width:18ch}
+.opcoes-t2{display:grid; gap:14px; width:min(100%,520px); border:0; padding:0; margin:0}
+.opcao{display:flex; align-items:center; gap:14px; border:3px solid var(--fg); padding:14px 16px; cursor:pointer; font:400 clamp(22px,6vw,30px)/1 "Anton",Impact,sans-serif; text-transform:uppercase; transition:background .15s, color .15s, box-shadow .15s; min-width:0}
+.opcao input[type=radio]{width:22px; height:22px; accent-color:var(--hot); flex:none; margin:0}
+.opcao:has(input:checked){background:var(--acid); color:var(--ink); border-color:var(--acid); box-shadow:5px 5px 0 var(--hot)}
+.opcao .num{width:4.2ch; font:inherit; background:transparent; color:inherit; border:0; border-bottom:3px solid currentColor; text-align:center; padding:0 2px; border-radius:0; -moz-appearance:textfield}
+.opcao .num::-webkit-outer-spin-button,.opcao .num::-webkit-inner-spin-button{-webkit-appearance:none; margin:0}
+.status{min-height:1.5em; margin:0; font-weight:700; text-transform:uppercase; font-size:13px; letter-spacing:.04em; color:var(--acid)}
+.status.erro{color:var(--hot)}
+
+/* Tela 3: narrativa */
+.narrativa{padding-block:4vh 12vh}
+.quadro{min-height:88vh; min-height:88svh; display:grid; align-content:center; gap:26px; padding-block:6vh}
+.frase{margin:0; font:400 clamp(30px,8.4vw,60px)/0.98 "Anton",Impact,sans-serif; text-transform:uppercase; text-wrap:balance; max-width:17ch}
+.frase.longo{font-size:clamp(24px,6.2vw,44px); max-width:22ch; line-height:1.02}
+.frase em{font-style:normal; color:var(--acid)}
+.frase strong{font-weight:400; color:var(--hot)}
+.arte{width:min(100%,420px)}
+.arte svg{display:block; width:100%; height:auto; overflow:visible}
+.dica-rolar{font-weight:700; text-transform:uppercase; letter-spacing:.14em; font-size:12px; color:var(--dim); animation:pisca 1.6s steps(2,jump-none) infinite}
+
+/* bonequinhas de palito */
+.menina path,.menina circle,.ln{fill:none; stroke:var(--fg); stroke-width:3; stroke-linecap:round; stroke-linejoin:round}
+.menina .cabeca{fill:var(--bg)}
+.menina .olho{fill:var(--fg); stroke:none}
+.arte text.q{font:400 54px "Anton",Impact,sans-serif}
+.arte text.bt{font:700 9px "Space Mono",monospace; fill:#0d0d0c}
+.arte text.grito{font:400 30px "Anton",Impact,sans-serif; fill:var(--hot)}
+.anim{transform-box:fill-box}
+.pula{animation:pula 1.2s ease-in-out infinite}
+.pula.b{animation-delay:-.6s}
+.acena{transform-box:fill-box; transform-origin:0% 100%; animation:acena .7s ease-in-out infinite alternate}
+.cai{animation:cai 2.8s cubic-bezier(.5,0,.6,1) infinite}
+.confete{transform-box:fill-box; transform-origin:center; animation:confete 3.2s linear infinite}
+.puxa{animation:puxa 1s ease-in-out infinite}
+.aperta{transform-box:fill-box; transform-origin:50% 100%; animation:aperta 1.3s ease-in-out infinite}
+.coracao{animation:sobe 2.4s ease-out infinite}
+.inclina{transform-box:fill-box; transform-origin:50% 100%; animation:inclina 2.2s ease-in-out infinite}
+.boia{transform-box:fill-box; transform-origin:center; animation:boia 1.6s ease-in-out infinite}
+.lagrima{animation:lagrima 1.3s ease-in infinite}
+.lagrima.b{animation-delay:-.65s}
+.brilho{transform-box:fill-box; transform-origin:center; animation:brilho 1.6s ease-in-out infinite}
+.copo{transform-box:fill-box; transform-origin:50% 100%; animation:copo 1.6s ease-in-out infinite}
+
+/* porta que treme e abre */
+.porta-bloco{display:grid; gap:26px; justify-items:start}
+.porta-wrap{position:relative; width:fit-content}
+.portal{position:relative; width:min(230px,58vw); aspect-ratio:3/5; border:8px solid var(--fg); border-bottom-width:4px; background:#000; perspective:900px; box-shadow:10px 10px 0 var(--blue)}
+.portal .vao{position:absolute; inset:0; display:grid; place-content:center; text-align:center; padding:12px; background:radial-gradient(circle at 50% 50%, rgba(212,255,26,.32), #000 72%)}
+.portal .vao p{margin:0; font:400 clamp(20px,5.4vw,26px)/1.02 "Anton",Impact,sans-serif; text-transform:uppercase; color:var(--fg); opacity:0; transition:opacity .6s .7s}
+.portal .vao strong{display:block; margin-top:10px; font-weight:400; font-size:1.45em; color:var(--acid); line-height:.92}
+.portal .folha{position:absolute; inset:0; background:var(--paper); border:4px solid var(--ink); box-shadow:inset 0 0 0 12px var(--paper), inset 0 0 0 15px var(--ink); transform-origin:left center; animation:bate 3.4s ease-in-out infinite}
+.portal .folha::after{content:""; position:absolute; right:16px; top:52%; width:14px; height:14px; border-radius:50%; background:var(--ink)}
+.portal.aberta .folha{animation:none; transform:rotateY(-108deg); transition:transform 1.2s cubic-bezier(.6,0,.2,1)}
+.portal.aberta .vao p{opacity:1}
+.toc{position:absolute; left:calc(100% + 18px); font:400 26px/1 "Anton",Impact,sans-serif; color:var(--hot); text-transform:lowercase; opacity:0; animation:toc 3.4s ease-out infinite; white-space:nowrap}
+.toc:nth-of-type(1){top:22%}
+.toc:nth-of-type(2){top:40%; animation-delay:.18s; color:var(--acid)}
+.toc:nth-of-type(3){top:58%; animation-delay:.36s}
+.porta-wrap.aberta .toc{display:none}
+
+/* figura que troca de roupa (item 11) */
+.figura{display:block; width:min(72vw,280px); height:auto; overflow:visible}
+.figura .corpo path,.figura .corpo circle{fill:none; stroke:var(--fg); stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round}
+.figura .rosto11 path,.figura .rosto11 circle{fill:none; stroke:var(--fg); stroke-width:2.6; stroke-linecap:round}
+.figura .rosto11 .olho{fill:var(--fg); stroke:none}
+.figura .sombra{fill:var(--hot); stroke:none}
+.figura .roupa{stroke:var(--ink); stroke-width:3.5; stroke-linejoin:round; stroke-linecap:round}
+.figura .meio{fill:url(#meio); stroke:none}
+.figura .det{fill:none; stroke:var(--ink); stroke-width:2.6; stroke-linecap:round; stroke-linejoin:round}
+.figura .det.grossa{stroke-width:9}
+.figura .det.pt{fill:var(--ink); stroke:none}
+
+/* reveal ao rolar (só com JS ligado) */
+.js .rev{opacity:0; translate:0 36px; transition:opacity .8s ease, translate .9s cubic-bezier(.2,.9,.2,1); transition-delay:var(--d,0s)}
+.js .rev.visto{opacity:1; translate:0 0}
+
+/* Telas 4 e 5: mensagem indisponível */
+.preta{background:#000; margin-left:calc(-1 * max(16px,env(safe-area-inset-left,0px))); margin-right:calc(-1 * max(16px,env(safe-area-inset-right,0px))); padding-left:max(16px,env(safe-area-inset-left,0px)); padding-right:max(16px,env(safe-area-inset-right,0px))}
+.indisp{margin:0; font:400 clamp(44px,12vw,110px)/0.9 "Anton",Impact,sans-serif; text-transform:uppercase; color:var(--fg); text-wrap:balance; max-width:12ch; animation:glitch 2.6s steps(1,end) infinite}
+.indisp-bloco{min-height:85vh; min-height:85svh; display:grid; align-content:center; gap:26px}
+.indisp-txt{margin:0; font:400 clamp(26px,7vw,48px)/1 "Anton",Impact,sans-serif; text-transform:uppercase; text-wrap:balance; max-width:20ch}
+.indisp-txt.final{color:var(--acid)}
+
+/* Tela 6: detalhes */
+.detalhes{padding-block:10vh 0}
+h2.titulo{margin:0 0 18px; font:400 clamp(52px,15vw,110px)/0.88 "Anton",Impact,sans-serif; text-transform:uppercase}
+h2.titulo em{font-style:normal; color:var(--acid)}
+.data{font:400 clamp(110px,40vw,260px)/0.78 "Anton",Impact,sans-serif; color:var(--acid); margin:6px 0 0; letter-spacing:-.02em; text-shadow:6px 6px 0 var(--hot)}
+.horario{font:400 clamp(40px,12vw,70px)/1 "Anton",Impact,sans-serif; text-transform:uppercase; margin:10px 0 0}
+.veroa{margin:18px 0 0; border-left:6px solid var(--hot); padding-left:14px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; max-width:40ch}
+.local{margin:28px 0 0; border:3px solid var(--fg); padding:18px 16px; transform:rotate(.6deg); max-width:520px}
+.rotulo{font-size:11px; text-transform:uppercase; letter-spacing:.3em; color:var(--dim); margin:0}
+.local .nome{font:400 46px/0.95 "Anton",Impact,sans-serif; margin:6px 0 0; text-transform:uppercase}
+.botoes{display:flex; flex-wrap:wrap; gap:14px; margin-top:20px}
+.cartao{margin-top:40px; border:3px solid var(--fg); padding:20px 16px; max-width:520px; background:linear-gradient(0deg,rgba(45,59,255,.14),transparent)}
+.cartao .txt{margin:8px 0 0; font:400 clamp(22px,6vw,30px)/1.02 "Anton",Impact,sans-serif; text-transform:uppercase; text-wrap:balance}
+.cartao .ajuda{margin:10px 0 0; font-size:13px; color:var(--dim)}
+.cartao .btn{margin-top:18px}
+.aviso-falha{margin:22px 0 0; border-left:6px solid var(--hot); padding-left:14px; font-weight:700; text-transform:uppercase; font-size:13px; color:var(--hot); max-width:44ch}
+.aviso-falha[hidden]{display:none!important}
+.rodape{margin-top:72px; border-top:3px solid var(--fg); padding-block:18px 26px; display:flex; flex-wrap:wrap; justify-content:space-between; gap:8px 14px; font-size:12px; text-transform:uppercase; letter-spacing:.14em; color:var(--dim)}
+
+/* campos (pop-up) */
+.campo{display:flex; flex-direction:column; gap:8px; margin-bottom:18px; min-width:0}
+.campo label{font-weight:700; text-transform:uppercase; letter-spacing:.12em; font-size:12px}
+.campo input{width:100%; min-width:0; background:var(--bg); color:var(--fg); border:0; border-bottom:3px solid var(--fg); font:400 16px "Space Mono",monospace; padding:10px 2px; border-radius:0}
+.arquivo{position:relative; display:inline-block; align-self:flex-start; border:2px dashed var(--acid); color:var(--acid); padding:14px; font-weight:700; text-transform:uppercase; letter-spacing:.06em; cursor:pointer; font-size:13px; transform:rotate(-1deg)}
+.arquivo input{position:absolute; inset:0; width:100%; height:100%; opacity:0; cursor:pointer}
+.arquivo:focus-within{outline:3px solid var(--acid); outline-offset:3px}
+.contador-fotos{font-weight:700; color:var(--hot); margin:0; text-transform:uppercase; font-size:13px}
+.caixa-modal .status{margin-top:14px}
+
+/* ===== POP-UP DA RESPOSTA ===== */
+.modal{position:fixed; inset:0; z-index:60; background:rgba(13,13,12,.86); display:grid; place-items:center; padding:16px; padding-top:max(16px,env(safe-area-inset-top,0px)); padding-bottom:max(16px,env(safe-area-inset-bottom,0px))}
+.modal[hidden]{display:none!important}
+.caixa-modal{position:relative; width:min(460px,100%); max-height:92svh; overflow:auto; background:var(--bg); border:3px solid var(--acid); box-shadow:8px 8px 0 var(--hot); padding:24px 18px 20px; animation:entrada .5s both}
+.caixa-modal h4{margin:0; font:400 clamp(34px,9vw,48px)/0.92 "Anton",Impact,sans-serif; text-transform:uppercase; text-wrap:balance; padding-right:44px}
+.caixa-modal p{margin:12px 0 0}
+.caixa-modal .n{font-weight:700; font-size:12px; letter-spacing:.3em; color:var(--acid); margin:0 0 8px; text-transform:uppercase}
+.passo[hidden]{display:none!important}
+.opcoes{display:grid; gap:12px; margin-top:18px}
+.opcoes .btn{text-align:left; width:100%; box-shadow:5px 5px 0 var(--hot); font-size:13px}
+.fechar{position:absolute; top:10px; right:10px; background:transparent; color:var(--fg); border:2px solid var(--fg); width:38px; height:38px; font:700 20px/1 "Space Mono",monospace; cursor:pointer}
+.fechar:hover{background:var(--fg); color:var(--ink)}
+
+/* ===== EXPLOSÃO ===== */
+.fim{position:fixed; inset:0; z-index:70; display:none; overflow:hidden; background:rgba(13,13,12,0); transition:background 1.2s ease}
+.fim.on{display:block}
+.fim.preto{background:#000}
+.fim .clarao{position:absolute; inset:0; background:var(--acid); opacity:0; pointer-events:none}
+.fim.on .clarao{animation:clarao .45s steps(3,end) .05s}
+.fim .rajada{position:absolute; left:50%; top:50%; width:0; height:0}
+.fim .peca{position:absolute; left:0; top:0; width:16px; height:16px; background:var(--c); transform:translate(-50%,-50%); animation:voa 1s cubic-bezier(.1,.7,.3,1) forwards}
+.fim .peca.c{border-radius:50%}
+.fim .peca.s{clip-path:polygon(50% 0,100% 100%,0 100%)}
+.fim .peca.q{border:3px solid var(--ink)}
+
+/* ===== TELÃO ===== */
+.telao{position:fixed; inset:0; z-index:30; background:#000; overflow:hidden; cursor:pointer}
+.telao[hidden]{display:none!important}
+.telao .palco-t{position:absolute; inset:0; display:flex; align-items:center; justify-content:center}
+.telao img{position:absolute; inset:0; width:100%; height:100%; object-fit:contain; animation:zoom 6s ease-out both}
+.telao .legenda{position:absolute; left:0; right:0; bottom:0; padding:28px 4vw calc(22px + env(safe-area-inset-bottom,0px)); background:linear-gradient(0deg,#000,transparent); font:400 clamp(32px,6vw,72px)/1 "Anton",Impact,sans-serif; text-transform:uppercase; color:var(--acid)}
+.telao .legenda small{display:block; font:700 14px "Space Mono",monospace; color:var(--fg); letter-spacing:.2em; margin-bottom:8px}
+.telao .vazio{font:400 clamp(44px,9vw,120px)/0.9 "Anton",Impact,sans-serif; text-transform:uppercase; text-align:center; padding:0 6vw; color:var(--fg)}
+.telao .vazio span{color:var(--hot)}
+.telao .tela-cheia{position:absolute; top:calc(14px + env(safe-area-inset-top,0px)); right:14px; background:var(--acid); color:var(--ink); border:0; padding:10px 12px; font:700 12px "Space Mono",monospace; text-transform:uppercase; cursor:pointer}
+
+/* ===== DESKTOP ===== */
+@media (min-width:820px){
+  .centro{padding-left:6vw}
+  .narrativa,.detalhes{padding-left:6vw; padding-right:6vw}
+  .quadro{grid-template-columns:minmax(0,1fr) minmax(0,1fr); align-items:center; column-gap:6vw}
+  .quadro.so-texto{grid-template-columns:minmax(0,1fr)}
+  .quadro .arte{justify-self:center}
+  .porta-bloco{grid-column:2; grid-row:1 / span 2; justify-self:center}
+  .indisp-bloco{padding-left:6vw}
+}
+
+/* ===== MOVIMENTO ===== */
+@keyframes flui{to{stroke-dashoffset:-660}}
+@keyframes estouro{0%{opacity:0}25%{opacity:.9}100%{opacity:0}}
+@keyframes faixaInterna{to{transform:translateX(-50%)}}
+@keyframes pisca{50%{opacity:0}}
+@keyframes entrada{from{opacity:0;transform:translateY(28px) skewY(-3deg)}to{opacity:1;transform:none}}
+@keyframes glitch{0%,88%,100%{transform:none;text-shadow:none}89%{transform:translate(-4px,1px);text-shadow:4px 0 var(--hot),-4px 0 var(--blue)}92%{transform:translate(3px,-1px);text-shadow:-3px 0 var(--acid)}95%{transform:none;text-shadow:none}}
+@keyframes zoom{from{transform:scale(1.08)}to{transform:scale(1)}}
+@keyframes clarao{0%{opacity:0}30%{opacity:1}100%{opacity:0}}
+@keyframes voa{0%{translate:0 0; rotate:0deg; opacity:1; scale:.4}80%{opacity:1}100%{translate:var(--dx) var(--dy); rotate:var(--r); opacity:0; scale:1.2}}
+@keyframes tremor{10%{translate:-7px 3px}20%{translate:6px -4px}30%{translate:-5px 2px}40%{translate:5px 4px}50%{translate:-3px -2px}60%{translate:3px 1px}80%{translate:-1px 0}100%{translate:0 0}}
+@keyframes pula{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes acena{from{transform:rotate(-12deg)}to{transform:rotate(14deg)}}
+@keyframes cai{0%{transform:translateY(-170px) rotate(-20deg); opacity:0}12%{opacity:1}62%,100%{transform:translateY(0) rotate(0); opacity:1}}
+@keyframes confete{0%{transform:translateY(-30px) rotate(0)}100%{transform:translateY(290px) rotate(540deg)}}
+@keyframes puxa{0%,100%{transform:translateX(0)}50%{transform:translateX(9px)}}
+@keyframes aperta{0%,100%{transform:scale(1,1)}50%{transform:scale(.86,1.05)}}
+@keyframes sobe{0%{transform:translateY(0) scale(.6); opacity:0}20%{opacity:1}100%{transform:translateY(-70px) scale(1.1); opacity:0}}
+@keyframes inclina{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(5deg)}}
+@keyframes boia{0%,100%{transform:translateY(0) rotate(-8deg)}50%{transform:translateY(-12px) rotate(8deg)}}
+@keyframes lagrima{0%{transform:translateY(0); opacity:0}20%{opacity:1}100%{transform:translateY(26px); opacity:0}}
+@keyframes brilho{0%,100%{transform:scale(.4); opacity:.2}50%{transform:scale(1.1); opacity:1}}
+@keyframes copo{0%,100%{transform:rotate(-6deg)}50%{transform:rotate(6deg)}}
+@keyframes bate{0%,58%,100%{transform:none}61%{transform:translateX(-5px) rotate(-1deg)}64%{transform:translateX(5px) rotate(1deg)}67%{transform:none}71%{transform:translateX(-5px) rotate(-1deg)}74%{transform:translateX(5px) rotate(1deg)}77%{transform:none}81%{transform:translateX(-5px) rotate(-1deg)}84%{transform:translateX(5px) rotate(1deg)}87%{transform:none}}
+@keyframes toc{0%,58%{opacity:0; transform:scale(.5)}62%{opacity:1; transform:scale(1.1)}66%{transform:scale(1)}86%{opacity:1}94%,100%{opacity:0}}
+@media (prefers-reduced-motion:reduce){ *,*::before,*::after{animation-duration:.01ms!important; animation-iteration-count:1!important} .js .rev{transition:none} }
+</style>
+
+<!-- Fundo de linhas que corre atrás de tudo -->
+<svg class="fundo" viewBox="0 0 400 800" preserveAspectRatio="none" aria-hidden="true">
+  <path d="M-20 90 C 90 40, 160 150, 240 100 S 360 20, 430 110"/>
+  <path d="M-20 200 C 80 150, 170 260, 250 210 S 360 140, 430 230"/>
+  <path d="M-20 320 C 100 270, 190 380, 260 330 S 360 260, 430 350"/>
+  <path d="M-20 440 C 90 390, 170 500, 250 450 S 360 380, 430 470"/>
+  <path d="M-20 560 C 100 510, 180 620, 260 570 S 360 500, 430 590"/>
+  <path d="M-20 680 C 90 630, 170 740, 250 690 S 360 620, 430 710"/>
+</svg>
+<div class="flash" id="flash" aria-hidden="true"></div>
+<div class="progresso" id="progresso" aria-hidden="true" hidden></div>
+
+<!-- ===== TELA 1: ABERTURA ===== -->
+<section class="tela" id="t1">
+  <div class="faixa-aviso" style="top:8%" aria-hidden="true"><span>ATENÇÃO • ESTA MENSAGEM SE AUTODESTRUIRÁ AO FINAL • ATENÇÃO • ESTA MENSAGEM SE AUTODESTRUIRÁ AO FINAL • ATENÇÃO • ESTA MENSAGEM SE AUTODESTRUIRÁ AO FINAL • ATENÇÃO • ESTA MENSAGEM SE AUTODESTRUIRÁ AO FINAL • </span></div>
+  <div class="centro">
+    <h1 class="aviso" tabindex="-1"><em>Atenção!</em> Esta mensagem se autodestruirá ao final.</h1>
+    <button class="btn grande" type="button" id="btn-abrir">Abrir</button>
+  </div>
+</section>
+
+<!-- ===== TELA 2: PERGUNTA ===== -->
+<section class="tela" id="t2" hidden>
+  <form class="centro" id="form-t2" novalidate>
+    <h2 class="pergunta-t" id="t2-titulo" tabindex="-1">O ano está quase terminando, e em quantas ocasiões estivemos juntos?</h2>
+    <fieldset class="opcoes-t2" aria-labelledby="t2-titulo">
+      <label class="opcao">
+        <input type="radio" name="ocasioes" value="exatamente" id="op-exatamente">
+        <span>Exatamente</span>
+        <input class="num" type="number" id="num-ocasioes" inputmode="numeric" min="0" max="999" aria-label="Número de ocasiões">
+      </label>
+      <label class="opcao"><input type="radio" name="ocasioes" value="muitas"><span>Muitas vezes</span></label>
+      <label class="opcao"><input type="radio" name="ocasioes" value="poucas"><span>Poucas vezes</span></label>
+    </fieldset>
+    <button class="btn grande" type="submit">Enviar</button>
+    <p class="status" id="st-t2" role="status"></p>
+  </form>
+</section>
+
+<!-- ===== TELA 3: NARRATIVA COM ROLAGEM ===== -->
+<section class="tela narrativa" id="t3" hidden>
+
+  <div class="quadro so-texto">
+    <p class="frase rev" tabindex="-1" id="t3-inicio">Pois é... e não foi o suficiente!</p>
+    <span class="dica-rolar rev" style="--d:.3s">role ↓</span>
+  </div>
+
+  <div class="quadro">
+    <p class="frase longo rev">Eu sei que na correria da vida a gente tá sempre assim, cumprindo as obrigações...</p>
+    <div class="arte rev" style="--d:.15s" data-arte="boletos" aria-hidden="true"></div>
+  </div>
+
+  <div class="quadro">
+    <p class="frase longo rev">... e sempre dependendo de uma ocasião especial que bata à porta e tire a gente da rotina</p>
+    <div class="porta-bloco rev" style="--d:.15s">
+      <div class="porta-wrap" id="porta-wrap">
+        <div class="portal" id="portal" aria-hidden="true">
+          <div class="vao"><p>Esse momento chegou! <strong>FESTA DA OCASIÃO</strong></p></div>
+          <div class="folha"></div>
+        </div>
+        <span class="toc" aria-hidden="true">toc</span>
+        <span class="toc" aria-hidden="true">toc</span>
+        <span class="toc" aria-hidden="true">toc</span>
+      </div>
+      <button class="btn grande" type="button" id="btn-porta">Abra a porta para uma ocasião especial</button>
+      <p class="sr" id="porta-aberta-txt" aria-live="polite"></p>
+    </div>
+  </div>
+
+  <!-- tudo daqui para baixo só aparece depois que a porta abre -->
+  <div id="pos-porta" hidden>
+    <div class="quadro">
+      <p class="frase longo rev">Analie e Thaíssa fazem aniversário e querem estar com você nessa ocasião especial!</p>
+      <div class="arte rev" style="--d:.15s" data-arte="festa" aria-hidden="true"></div>
+    </div>
+
+    <div class="quadro">
+      <p class="frase longo rev">No dia 19/11, quinta-feira, véspera de feriado pra você não perder essa ocasião de jeito nenhum</p>
+      <div class="arte rev" style="--d:.15s" data-arte="fuga" aria-hidden="true"></div>
+    </div>
+
+    <div class="quadro so-texto">
+      <p class="frase longo rev">Vai ser no bar 1953, onde teremos tudo o que pede a ocasião: música, bebida, alegria...</p>
+    </div>
+
+    <div class="quadro">
+      <p class="frase rev">... e a gente juntos!</p>
+      <div class="arte rev" style="--d:.15s" data-arte="abraco" aria-hidden="true"></div>
+    </div>
+
+    <div class="quadro">
+      <p class="frase longo rev">E aproveitando que estamos abrindo portas, sabe quem mais tá querendo sair do armário?</p>
+      <div class="arte rev" style="--d:.15s" data-arte="confusa" aria-hidden="true"></div>
+    </div>
+
+    <div class="quadro">
+      <p class="frase longo rev">aquela roupitcha muito especial que você nunca usa porque não tem ocasião!</p>
+      <div class="arte rev" style="--d:.15s" data-arte="emocionada" aria-hidden="true"></div>
+    </div>
+
+    <div class="quadro" id="q11">
+      <p class="frase longo rev">Sim, esse é o dress code do evento: venha com aquela beca massa que você nunca tem oportunidade de usar!</p>
+      <div class="arte rev" style="--d:.15s" aria-hidden="true">
+        <svg class="figura" viewBox="0 0 300 480">
+          <defs>
+            <pattern id="meio" width="7" height="7" patternUnits="userSpaceOnUse">
+              <circle cx="3.5" cy="3.5" r="1.5" fill="#0d0d0c" opacity=".45"/>
+            </pattern>
+          </defs>
+          <g class="corpo">
+            <path d="M 136 106 L 136 120 M 164 106 L 164 120"/>
+            <path d="M 98 130 L 70 290 L 82 296 L 108 150"/>
+            <path d="M 202 130 L 230 290 L 218 296 L 192 150"/>
+            <path d="M 112 300 L 110 470 L 138 470 L 150 360 L 162 470 L 190 470 L 188 300"/>
+          </g>
+          <path class="sombra" id="sT" d="" transform="translate(9 8)"/>
+          <path class="roupa" id="gT" d="" fill="none"/>
+          <path class="meio" id="mT" d=""/>
+          <path class="roupa" id="gL" d="" fill="none"/>
+          <!-- cabeça da bonequinha: rosto e maria-chiquinha -->
+          <g class="rosto11">
+            <circle cx="150" cy="78" r="30" style="fill:#0d0d0c"/>
+            <path d="M 124 66 Q 137 48 150 60 Q 163 48 176 66"/>
+            <path d="M 121 70 C 98 64 94 96 108 104 C 112 94 116 86 122 82"/>
+            <path d="M 179 70 C 202 64 206 96 192 104 C 188 94 184 86 178 82"/>
+            <circle class="olho" cx="139" cy="76" r="3.2"/>
+            <circle class="olho" cx="161" cy="76" r="3.2"/>
+            <path d="M 138 88 Q 150 99 162 88"/>
+          </g>
+          <path class="roupa" id="gH" d="" fill="none"/>
+          <g id="detalhes">
+            <path class="det" data-l="1" d="M 216 40 L 232 74 L 236 92"/>
+            <circle class="det pt" data-l="1" cx="236" cy="97" r="5"/>
+            <path class="det" data-l="1" d="M 150 140 L 150 420" stroke-dasharray="6 7"/>
+            <path class="det" data-l="2" d="M 150 150 L 116 240 M 150 150 L 184 240"/>
+            <path class="det" data-l="2" d="M 140 150 L 150 196 L 160 150"/>
+            <circle class="det pt" data-l="2" cx="150" cy="232" r="3.5"/>
+            <circle class="det pt" data-l="2" cx="150" cy="262" r="3.5"/>
+            <circle class="det pt" data-l="3" cx="150" cy="138" r="3"/>
+            <circle class="det pt" data-l="3" cx="150" cy="172" r="3"/>
+            <circle class="det pt" data-l="3" cx="150" cy="206" r="3"/>
+            <path class="det" data-l="3" d="M 124 150 L 124 166 M 116 158 L 132 158"/>
+            <path class="det" data-l="3" d="M 178 186 L 178 202 M 170 194 L 186 194"/>
+            <path class="det grossa" data-l="4" d="M 150 166 L 150 288 M 124 212 L 176 212"/>
+            <path class="det grossa" data-l="5" d="M 106 240 Q 150 256 194 240"/>
+            <path class="det" data-l="5" d="M 118 264 L 182 264"/>
+            <path class="det grossa" data-l="6" d="M 108 58 Q 150 70 192 58"/>
+            <path class="det" data-l="6" d="M 186 40 Q 214 20 230 46"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+
+    <div class="quadro so-texto">
+      <p class="frase longo rev">E mais! Nessa ocasião vamos celebrar nossas vidas e nossos encontros... por isso pedimos que, se você puder, envie umas fotos de outras ocasiões especiais em que estivemos juntos (envio lá no final)</p>
+    </div>
+
+    <div class="quadro so-texto" id="q13">
+      <p class="frase rev">E então... podemos contar com a sua presença?</p>
+      <button class="btn grande rev" style="--d:.2s" type="button" id="btn-abrir-modal">Responder</button>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TELA 4: MENSAGEM INDISPONÍVEL ===== -->
+<section class="tela preta" id="t4" hidden>
+  <div class="centro">
+    <h2 class="indisp" tabindex="-1">Mensagem indisponível.</h2>
+    <button class="btn sec grande" type="button" id="btn-tentar">Clique para tentar novamente</button>
+  </div>
+</section>
+
+<!-- ===== TELA 5: MENSAGEM INDISPONÍVEL, COM ROLAGEM ===== -->
+<section class="tela preta" id="t5" hidden>
+  <div class="indisp-bloco">
+    <h2 class="indisp" tabindex="-1">Mensagem indisponível</h2>
+    <span class="dica-rolar">role ↓</span>
+  </div>
+  <div class="indisp-bloco">
+    <p class="indisp-txt rev">Parece que a mensagem já se autodestruiu. Como você pode ver, a vida passa, e as ocasiões especiais são realmente únicas.</p>
+  </div>
+  <div class="indisp-bloco">
+    <p class="indisp-txt final rev" id="frase-resposta"></p>
+    <button class="btn grande rev" style="--d:.2s" type="button" id="btn-detalhes">Detalhes</button>
+  </div>
+</section>
+
+<!-- ===== TELA 6: DETALHES ===== -->
+<section class="tela detalhes" id="t6" hidden>
+  <h2 class="titulo" tabindex="-1">Detalhes</h2>
+  <p class="data">19.11</p>
+  <p class="horario">Quinta · 19:30</p>
+  <p class="veroa">Véspera de feriado. Ninguém vai ter desculpa para acordar cedo.</p>
+  <div class="local">
+    <p class="rotulo">Onde</p>
+    <p class="nome">Bar 1953</p>
+  </div>
+  <div class="botoes">
+    <a class="btn" href="https://maps.app.goo.gl/qMxJKeuP9nnAu2JU9" target="_blank" rel="noopener">Abrir o mapa</a>
+    <a class="btn sec" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Festa%20da%20Ocasi%C3%A3o%20-%20Analie%20e%20Tha%C3%ADssa&amp;dates=20261119T193000/20261119T233000&amp;location=Bar%201953" target="_blank" rel="noopener">Salvar na agenda</a>
+  </div>
+  <div class="cartao">
+    <p class="rotulo">Dress code</p>
+    <p class="txt">Sim, esse é o dress code do evento: venha com aquela beca massa que você nunca tem oportunidade de usar!</p>
+  </div>
+  <div class="cartao">
+    <p class="rotulo">Fotos</p>
+    <p class="txt">Fotos de outras ocasiões especiais em que estivemos juntos.</p>
+    <p class="ajuda">Até 10 fotos por pessoa, até 31 de dezembro. Elas passam no telão do bar.</p>
+    <button class="btn grande" type="button" id="btn-enviar-fotos">Enviar fotos</button>
+  </div>
+  <p class="aviso-falha" id="aviso-falha" hidden>Não conseguimos registrar a sua resposta. Avise as aniversariantes por mensagem.</p>
+  <footer class="rodape">
+    <span>Bar 1953 · Quinta · 19.11 · 19:30</span>
+    <span>Festa da Ocasião</span>
+  </footer>
+</section>
+
+<!-- ===== POP-UP DA RESPOSTA ===== -->
+<div id="modal" class="modal" hidden role="presentation">
+  <div class="caixa-modal" role="dialog" aria-modal="true" aria-labelledby="m-titulo">
+    <button class="fechar" id="m-fechar" type="button" aria-label="Fechar">×</button>
+
+    <div class="passo" data-passo="pergunta">
+      <p class="n">Resposta</p>
+      <h4 id="m-titulo">Você vai?</h4>
+      <div class="opcoes">
+        <button class="btn" type="button" data-r="sim">Sim, eu estava esperando essa ocasião.</button>
+        <button class="btn sec" type="button" data-r="talvez">Talvez.</button>
+        <button class="btn sec" type="button" data-r="nao">Não, vai ter que ficar para outra ocasião.</button>
+      </div>
+    </div>
+
+    <div class="passo" data-passo="nome" hidden>
+      <p class="n">Quase lá</p>
+      <h4>Como você se chama?</h4>
+      <form id="m-form-nome" novalidate>
+        <div class="campo" style="margin-top:18px">
+          <label for="m-nome">Seu nome</label>
+          <input id="m-nome" name="nome" autocomplete="name" maxlength="60" required>
+        </div>
+        <button class="btn" type="submit">Continuar</button>
+        <p class="status" id="m-st-nome" role="status"></p>
+      </form>
+    </div>
+
+    <div class="passo" data-passo="fotos" hidden>
+      <p class="n">Fotos</p>
+      <h4>Vale qualquer ocasião.</h4>
+      <p id="m-saud"></p>
+      <p>Manda até 10 fotos com as aniversariantes, de outras ocasiões especiais em que estivemos juntos. Pode mandar até 31 de dezembro.</p>
+      <form id="m-form-fotos" novalidate style="margin-top:18px">
+        <div class="campo">
+          <span class="arquivo">
+            Escolher fotos
+            <input id="m-arquivos" type="file" accept="image/*" multiple>
+          </span>
+          <p class="contador-fotos" id="m-contador" aria-live="polite">Nenhuma foto escolhida</p>
+        </div>
+        <button class="btn" type="submit" id="m-btn-fotos">Enviar fotos</button>
+        <p class="status" id="m-st-fotos" role="status"></p>
+      </form>
+      <button class="btn sec" type="button" data-fecha style="margin-top:18px">Fechar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== EXPLOSÃO ===== -->
+<div id="fim" class="fim" aria-hidden="true">
+  <div class="clarao"></div>
+  <div class="rajada" id="rajada"></div>
+</div>
+
+<!-- ===== TELÃO (#telao) ===== -->
+<div id="telao" class="telao" hidden>
+  <div class="palco-t" id="telao-conteudo"></div>
+  <button class="tela-cheia" id="btn-cheia" type="button">Tela cheia</button>
+</div>
+
+<script>
+(function(){
+  document.documentElement.classList.add("js");
+  const $ = id => document.getElementById(id);
+  const tRed = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const TELAS = ["t1","t2","t3","t4","t5","t6"].map($);
+  const modal = $("modal"), fim = $("fim"), telao = $("telao"), progresso = $("progresso");
+  let db = null;
+
+  /* ---------- estado do convite ---------- */
+  let respostaOcasioes = "", resposta = null, nomeAtual = "", salvouResposta = true, respondido = false;
+
+  function mostraTela(id){
+    TELAS.forEach(t => { t.hidden = t.id !== id; });
+    progresso.hidden = id !== "t3";
+    scrollTo(0, 0);
+    const alvo = $(id).querySelector("[tabindex='-1']");
+    if(alvo) alvo.focus({preventScroll:true});
+    aoRolar();
+  }
+
+  /* =========================================================
+     BONEQUINHAS DE PALITO
+     Caixa de cada uma: 100 x 186. Cabeça em (50,38), raio 22.
+     ========================================================= */
+  const COR = {hot:"#ff2d7e", blue:"#2d3bff", acid:"#d4ff1a", paper:"#e9e4d4", ink:"#0d0d0c", fg:"#f1efe6"};
+  const OLHOS = '<circle class="olho" cx="42" cy="36" r="2.4"/><circle class="olho" cx="58" cy="36" r="2.4"/>';
+  const BOCHECHAS = '<circle cx="35" cy="44" r="3.2" style="fill:#ff2d7e;stroke:none;opacity:.55"/><circle cx="65" cy="44" r="3.2" style="fill:#ff2d7e;stroke:none;opacity:.55"/>';
+  const CABELOS = {
+    marias: '<path d="M 30 30 Q 40 16 50 26 Q 60 16 70 30"/><path d="M 29 32 C 12 28 8 52 18 58 C 22 50 24 44 28 42"/><path d="M 71 32 C 88 28 92 52 82 58 C 78 50 76 44 72 42"/>',
+    liso:   '<path d="M 28 46 C 24 18 40 12 50 14 C 62 12 78 20 72 46 L 75 74"/><path d="M 28 46 L 25 74"/><path d="M 34 26 Q 48 32 64 22"/>',
+    cacho:  '<path d="M 27 46 a 7 7 0 0 1 -1 -13 a 7 7 0 0 1 8 -11 a 8 8 0 0 1 12 -6 a 8 8 0 0 1 13 1 a 7 7 0 0 1 10 9 a 7 7 0 0 1 3 13 a 6 6 0 0 1 -3 9"/>',
+    coque:  '<circle cx="50" cy="11" r="8"/><path d="M 30 32 Q 50 14 70 32"/>'
+  };
+  const ROSTOS = {
+    feliz: OLHOS + BOCHECHAS + '<path d="M 41 45 Q 50 54 59 45"/>',
+    aberta: OLHOS + BOCHECHAS + '<path d="M 40 44 Q 50 60 60 44 Z" style="fill:#ff2d7e"/>',
+    tensa: '<circle class="olho" cx="46" cy="36" r="2.4"/><circle class="olho" cx="62" cy="36" r="2.4"/><path d="M 44 49 Q 51 45 58 49"/><path d="M 76 22 q 5 7 0 9 q -5 -2 0 -9" style="fill:#2d3bff;stroke:none"/>',
+    sufocada: '<path d="M 38 32 l 7 7 M 45 32 l -7 7 M 55 32 l 7 7 M 62 32 l -7 7"/><path d="M 41 48 q 4.5 -3 9 0 q 4.5 3 9 0"/><path d="M 50 49 q 3 8 7 1" style="fill:#ff2d7e"/>',
+    confusa: '<circle class="olho" cx="42" cy="37" r="2.4"/><circle class="olho" cx="58" cy="36" r="3.4"/><path d="M 53 27 q 6 -5 12 -1"/><path d="M 36 29 L 46 31"/><circle cx="51" cy="49" r="3"/>',
+    emocionada: '<path d="M 37 37 q 5 -6 10 0 M 53 37 q 5 -6 10 0"/>' + BOCHECHAS + '<path d="M 40 44 Q 50 58 60 44 Z" style="fill:#ff2d7e"/>' +
+      '<g class="lagrima"><path d="M 38 41 q 3 5 0 7 q -3 -2 0 -7" style="fill:#2d3bff;stroke:none"/></g>' +
+      '<g class="lagrima b"><path d="M 62 41 q 3 5 0 7 q -3 -2 0 -7" style="fill:#2d3bff;stroke:none"/></g>'
+  };
+  const BRACOS = {
+    baixo:   "M 44 72 L 28 108 M 56 72 L 72 108",
+    abertos: "M 44 72 L 16 50 M 56 72 L 84 50",
+    rosto:   "M 44 72 L 30 66 L 32 50 M 56 72 L 70 66 L 68 50",
+    coca:    "M 44 72 L 28 108 M 56 72 L 82 56 L 74 22",
+    agita:   "M 44 72 L 30 40 M 56 72 L 72 38",
+    nenhum:  ""
+  };
+  const PERNAS = {
+    normal: "M 40 140 L 38 182 L 30 184 M 60 140 L 62 182 L 70 184",
+    corre:  "M 40 140 L 30 178 L 20 174 M 60 140 L 76 176 L 86 182"
+  };
+  const CHAPEU_FESTA = '<path d="M 36 22 L 50 -14 L 64 22 Z" style="fill:#d4ff1a"/><path d="M 43 4 L 57 9 M 40 14 L 60 19" style="stroke:#0d0d0c;stroke-width:2"/><circle cx="50" cy="-17" r="5" style="fill:#ff2d7e;stroke:none"/>';
+
+  function menina(o){
+    const bracos = o.bracosD !== undefined ? o.bracosD : BRACOS[o.bracos || "baixo"];
+    return `<g class="menina" transform="translate(${o.x} ${o.y})${o.s ? ` scale(${o.s})` : ""}">
+      <path d="${PERNAS[o.pernas || "normal"]}"/>
+      <path class="vestido" d="M 40 66 L 60 66 L 80 140 L 20 140 Z" style="fill:${o.vestido || COR.hot}"/>
+      ${bracos ? `<path d="${bracos}"/>` : ""}
+      <path d="M 50 60 L 50 66"/>
+      <circle class="cabeca" cx="50" cy="38" r="22"/>
+      ${CABELOS[o.cabelo || "marias"]}
+      ${ROSTOS[o.rosto || "feliz"]}
+      ${o.extra || ""}
+    </g>`;
+  }
+  const svg = (vb, corpo) => `<svg viewBox="${vb}" xmlns="http://www.w3.org/2000/svg">${corpo}</svg>`;
+  const aleat = (a, b) => a + Math.random() * (b - a);
+
+  function boleto(){
+    return `<rect width="80" height="44" rx="2" style="fill:#e9e4d4;stroke:#0d0d0c;stroke-width:2"/>
+      <text x="8" y="14" class="bt">BOLETO</text>
+      <path d="M 8 22 L 52 22 M 8 28 L 40 28" style="fill:none;stroke:#0d0d0c;stroke-width:2"/>
+      <path d="M 8 34 v7 M 11 34 v7 M 15 34 v7 M 17 34 v7 M 21 34 v7 M 25 34 v7 M 27 34 v7 M 31 34 v7 M 34 34 v7 M 38 34 v7 M 41 34 v7 M 45 34 v7" style="fill:none;stroke:#0d0d0c;stroke-width:1.5"/>
+      <text x="56" y="40" class="bt">R$</text>`;
+  }
+
+  const CENAS = {
+    /* 2: soterrada de boletos, só a cabeça e um braço acenando */
+    boletos(){
+      const pilha = [[30,206,-8],[96,214,6],[164,208,-4],[228,200,9],[50,174,12],[122,178,-10],[194,170,5],[80,146,-6],[156,140,8],[116,120,-3]];
+      const caindo = [[52,112,-14,0],[198,114,12,.9],[124,98,4,1.8]];
+      let s = menina({x:110, y:30, cabelo:"marias", vestido:COR.hot, bracos:"nenhum", rosto:"tensa"});
+      s += `<g class="acena"><path class="ln" d="M 166 102 L 198 40"/><circle class="ln" cx="200" cy="36" r="5" style="fill:#0d0d0c"/></g>`;
+      pilha.forEach(([x,y,r]) => { s += `<g transform="translate(${x} ${y}) rotate(${r})">${boleto()}</g>`; });
+      caindo.forEach(([x,y,r,d]) => { s += `<g transform="translate(${x} ${y}) rotate(${r})"><g class="cai" style="animation-delay:${d}s">${boleto()}</g></g>`; });
+      return svg("0 0 320 270", s);
+    },
+    /* 5: as duas aniversariantes, braços abertos, chapéu de festa e confete */
+    festa(){
+      let s = '<path class="ln" d="M 0 20 Q 170 100 340 20"/>';
+      const cores = [COR.hot, COR.acid, COR.blue, COR.paper];
+      for(let i = 0; i < 8; i++){
+        const t = (i + .5) / 8, x = 340 * t, y = 20 + 80 * t * (1 - t);
+        s += `<path d="M ${(x-12).toFixed(1)} ${y.toFixed(1)} L ${(x+12).toFixed(1)} ${y.toFixed(1)} L ${x.toFixed(1)} ${(y+22).toFixed(1)} Z" style="fill:${cores[i%4]};stroke:#f1efe6;stroke-width:2"/>`;
+      }
+      s += `<g class="pula">${menina({x:56, y:76, cabelo:"marias", vestido:COR.hot, bracos:"abertos", rosto:"aberta", extra:CHAPEU_FESTA})}</g>`;
+      s += `<g class="pula b">${menina({x:186, y:76, cabelo:"cacho", vestido:COR.blue, bracos:"abertos", rosto:"aberta", extra:CHAPEU_FESTA})}</g>`;
+      for(let i = 0; i < 26; i++){
+        const x = aleat(0, 340).toFixed(0), w = aleat(5, 9).toFixed(0), h = aleat(9, 14).toFixed(0);
+        s += `<g transform="translate(${x} 0)"><rect class="confete" width="${w}" height="${h}" style="fill:${cores[i%3]};animation-delay:${aleat(-3.2,0).toFixed(2)}s;animation-duration:${aleat(2.6,4).toFixed(2)}s"/></g>`;
+      }
+      return svg("0 0 340 272", s);
+    },
+    /* 6: uma tentando escapar, a outra segurando pela roupa, com um copo na mão */
+    fuga(){
+      const copo = `<g class="copo"><path d="M 6 84 L 34 84 L 20 100 Z" style="fill:#d4ff1a"/><path d="M 20 100 L 20 114 M 12 114 L 28 114"/><path d="M 28 84 L 38 70"/></g>`;
+      let s = `<g class="puxa">${menina({x:170, y:50, cabelo:"coque", vestido:COR.acid, pernas:"corre", bracosD:"M 44 72 L 72 92 M 56 72 L 98 66", rosto:"tensa"})}</g>`;
+      s += `<text x="292" y="70" class="grito">!!</text>`;
+      s += menina({x:30, y:50, cabelo:"marias", vestido:COR.hot, bracosD:"M 44 72 L 22 104 M 56 72 L 168 110", rosto:"feliz", extra:copo + '<circle cx="168" cy="110" r="5" style="fill:#f1efe6"/>'});
+      s += `<path class="ln" d="M 206 150 q 6 -6 12 0 M 210 162 q 6 -6 12 0" style="stroke:#ff2d7e"/>`;
+      return svg("0 0 340 250", s);
+    },
+    /* 8: abraço apertado demais, a outra quase sufocada */
+    abraco(){
+      const coracao = 'M 0 4 C 0 -2 8 -2 8 4 C 8 -2 16 -2 16 4 C 16 10 8 14 8 18 C 8 14 0 10 0 4 Z';
+      let s = `<g class="aperta">${menina({x:150, y:60, cabelo:"liso", vestido:COR.blue, bracos:"agita", rosto:"sufocada"})}</g>`;
+      s += menina({x:88, y:60, cabelo:"marias", vestido:COR.hot, bracos:"nenhum", rosto:"aberta"});
+      s += `<path class="ln" d="M 144 132 C 190 116 250 126 236 150 C 226 166 192 166 178 158"/>`;
+      s += `<path class="ln" d="M 134 134 C 170 152 242 160 232 178 C 224 190 198 188 186 180"/>`;
+      s += `<path class="ln" d="M 254 118 q 9 12 0 24 M 264 110 q 12 20 0 40" style="stroke:#d4ff1a"/>`;
+      [[96,40,0],[230,30,.8],[166,14,1.6]].forEach(([x,y,d]) => {
+        s += `<g transform="translate(${x} ${y})"><g class="coracao" style="animation-delay:${d}s"><path d="${coracao}" style="fill:#ff2d7e"/></g></g>`;
+      });
+      return svg("0 0 320 262", s);
+    },
+    /* 9: curiosa, coçando a cabeça */
+    confusa(){
+      let s = `<g class="inclina">${menina({x:100, y:56, cabelo:"coque", vestido:COR.acid, bracos:"coca", rosto:"confusa"})}</g>`;
+      [[214,80,COR.hot,0,54],[250,140,COR.acid,.5,38],[52,90,COR.blue,1,44]].forEach(([x,y,c,d,t]) => {
+        s += `<g transform="translate(${x} ${y})"><text class="q boia" style="fill:${c};font-size:${t}px;animation-delay:${d}s">?</text></g>`;
+      });
+      return svg("0 0 300 262", s);
+    },
+    /* 10: feliz, mãos no rosto, olhos marejados */
+    emocionada(){
+      let s = menina({x:100, y:56, cabelo:"liso", vestido:COR.paper, bracos:"rosto", rosto:"emocionada"});
+      const estrela = "M 0 -11 L 3 -3 L 11 0 L 3 3 L 0 11 L -3 3 L -11 0 L -3 -3 Z";
+      [[56,70,0],[238,84,.4],[230,190,.8],[62,196,1.2],[250,30,.2]].forEach(([x,y,d]) => {
+        s += `<g transform="translate(${x} ${y})"><path class="brilho" d="${estrela}" style="fill:#d4ff1a;animation-delay:${d}s"/></g>`;
+      });
+      return svg("0 0 300 262", s);
+    }
+  };
+  document.querySelectorAll("[data-arte]").forEach(el => { el.innerHTML = CENAS[el.dataset.arte](); });
+
+  /* =========================================================
+     ITEM 11: a roupa troca sozinha, em loop
+     ========================================================= */
+  const COLAPSO_H = Array(10).fill([150,60]);
+  const COLAPSO_L = Array(10).fill([150,330]);
+  const LOOKS = [
+    { T: [[98,126],[124,120],[150,118],[176,120],[202,126],[196,210],[188,300],[150,304],[112,300],[104,210]], H: COLAPSO_H,
+      L: [[112,300],[150,304],[188,300],[190,380],[190,470],[160,470],[150,390],[140,470],[110,470],[110,380]] },
+    { T: [[92,126],[124,122],[150,128],[176,122],[208,126],[222,230],[236,420],[150,430],[64,420],[78,230]],
+      H: [[150,6],[222,34],[150,62],[78,34],[150,6],[150,62],[150,62],[150,62],[150,62],[150,62]], L: COLAPSO_L },
+    { T: [[92,128],[124,122],[150,150],[176,122],[208,128],[210,220],[200,300],[150,306],[100,300],[90,220]], H: COLAPSO_H,
+      L: [[114,300],[150,306],[186,300],[192,380],[190,470],[162,470],[150,380],[138,470],[110,470],[112,380]] },
+    { T: [[96,124],[124,118],[150,124],[176,118],[204,124],[212,200],[206,262],[150,268],[94,262],[88,200]],
+      H: [[118,60],[150,8],[190,30],[184,58],[150,50],[124,50],[150,38],[160,44],[150,46],[134,52]],
+      L: [[110,300],[150,306],[190,300],[200,380],[204,470],[160,470],[150,400],[140,470],[96,470],[100,380]] },
+    { T: [[100,126],[124,120],[150,122],[176,120],[200,126],[206,300],[214,460],[150,470],[86,460],[94,300]],
+      H: [[110,24],[122,15],[150,12],[178,15],[190,24],[178,33],[150,36],[122,33],[110,24],[110,24]], L: COLAPSO_L },
+    { T: [[104,124],[124,118],[150,126],[176,118],[196,124],[200,200],[190,240],[150,246],[110,240],[100,200]],
+      H: [[118,58],[150,46],[182,58],[150,72],[122,64],[176,64],[150,62],[140,60],[160,60],[150,64]],
+      L: [[108,246],[150,250],[192,246],[210,350],[222,470],[160,470],[150,360],[140,470],[78,470],[90,350]] },
+    { T: [[96,126],[124,120],[150,130],[176,120],[204,126],[200,210],[190,302],[150,306],[110,302],[100,210]],
+      H: [[104,46],[118,20],[182,20],[196,46],[236,54],[200,64],[100,64],[64,54],[150,46],[150,46]],
+      L: [[112,300],[150,304],[188,300],[190,380],[190,470],[160,470],[150,390],[140,470],[110,470],[110,380]] }
+  ];
+  const COR_T = ["none","#e9e4d4","#2d3bff","#ff2d7e","#e9e4d4","#d4ff1a","#e9e4d4"];
+  const COR_H = ["none","#ff2d7e","#e9e4d4","#2d3bff","#d4ff1a","#ff2d7e","#d4ff1a"];
+  const COR_L = ["none","#e9e4d4","#e9e4d4","#d4ff1a","#e9e4d4","#2d3bff","#e9e4d4"];
+  const sT = $("sT"), gT = $("gT"), mT = $("mT"), gH = $("gH"), gL = $("gL");
+  const detalhes = Array.from(document.querySelectorAll("#detalhes [data-l]"));
+  const lerp = (a,b,t) => a.map((p,i) => [p[0] + (b[i][0]-p[0])*t, p[1] + (b[i][1]-p[1])*t]);
+  const pts = p => "M" + p.map(q => q[0].toFixed(1)+" "+q[1].toFixed(1)).join(" L") + " Z";
+  const ease = t => t < .5 ? 4*t*t*t : 1 - Math.pow(-2*t+2, 3)/2;
+
+  function morfaPar(a, b, t){
+    const e = ease(t), A = LOOKS[a], B = LOOKS[b], k = e < .5 ? a : b;
+    const dT = pts(lerp(A.T, B.T, e));
+    sT.setAttribute("d", dT); gT.setAttribute("d", dT); mT.setAttribute("d", dT);
+    gH.setAttribute("d", pts(lerp(A.H, B.H, e)));
+    gL.setAttribute("d", pts(lerp(A.L, B.L, e)));
+    gT.setAttribute("fill", COR_T[k]); gH.setAttribute("fill", COR_H[k]); gL.setAttribute("fill", COR_L[k]);
+    detalhes.forEach(el => {
+      const l = +el.dataset.l;
+      el.style.opacity = l === a && l === b ? 1 : l === a ? (1 - e).toFixed(2) : l === b ? e.toFixed(2) : 0;
+    });
+  }
+  const SEQ = [1,2,3,4,5,6], SEGURA = 1100, MUDA = 900;
+  let morfando = false, t0 = null;
+  function loopMorfa(ts){
+    if(!morfando) return;
+    if(t0 === null) t0 = ts;
+    const per = SEGURA + MUDA, e = (ts - t0) % (per * SEQ.length);
+    const passo = Math.floor(e / per), dentro = e - passo * per;
+    morfaPar(SEQ[passo], SEQ[(passo + 1) % SEQ.length], dentro < SEGURA ? 0 : (dentro - SEGURA) / MUDA);
+    requestAnimationFrame(loopMorfa);
+  }
+  morfaPar(1, 1, 0);
+  if(!tRed){
+    new IntersectionObserver(es => {
+      es.forEach(en => {
+        if(en.isIntersecting && !morfando){ morfando = true; t0 = null; requestAnimationFrame(loopMorfa); }
+        else if(!en.isIntersecting){ morfando = false; }
+      });
+    }).observe($("q11"));
+  }
+
+  /* =========================================================
+     ROLAGEM: reveal, barra de progresso
+     ========================================================= */
+  const obsRev = ("IntersectionObserver" in window) ? new IntersectionObserver(es => {
+    es.forEach(en => { if(en.isIntersecting){ en.target.classList.add("visto"); obsRev.unobserve(en.target); } });
+  }, {threshold:.15}) : null;
+  document.querySelectorAll(".rev").forEach(el => { if(tRed || !obsRev) el.classList.add("visto"); else obsRev.observe(el); });
+
+  let pedido = false;
+  function aoRolar(){
+    if(pedido) return; pedido = true;
+    requestAnimationFrame(() => {
+      pedido = false;
+      const pagina = document.documentElement.scrollHeight - innerHeight;
+      progresso.style.transform = "scaleX(" + (pagina > 0 ? Math.min(1, scrollY / pagina) : 0).toFixed(4) + ")";
+    });
+  }
+  addEventListener("scroll", aoRolar, {passive:true});
+  addEventListener("resize", aoRolar);
+
+  /* =========================================================
+     TELA 1 e TELA 2
+     ========================================================= */
+  $("btn-abrir").addEventListener("click", () => {
+    const f = $("flash");
+    f.classList.remove("on"); void f.offsetWidth; f.classList.add("on");
+    setTimeout(() => mostraTela("t2"), tRed ? 0 : 280);
+  });
+  const num = $("num-ocasioes");
+  num.addEventListener("focus", () => { $("op-exatamente").checked = true; });
+  num.addEventListener("input", () => { $("op-exatamente").checked = true; });
+  $("form-t2").addEventListener("change", () => { const st = $("st-t2"); st.textContent = ""; st.classList.remove("erro"); });
+  $("form-t2").addEventListener("submit", ev => {
+    ev.preventDefault();
+    const st = $("st-t2");
+    const marcada = ev.target.querySelector('input[name="ocasioes"]:checked');
+    if(!marcada){ st.textContent = "Escolhe uma das opções."; st.classList.add("erro"); return; }
+    if(marcada.value === "exatamente"){
+      const n = parseInt(num.value, 10);
+      if(!Number.isFinite(n) || n < 0){ st.textContent = "Coloca o número de ocasiões."; st.classList.add("erro"); num.focus(); return; }
+      respostaOcasioes = "exatamente " + n;
+    } else {
+      respostaOcasioes = marcada.value === "muitas" ? "muitas vezes" : "poucas vezes";
+    }
+    st.textContent = "";
+    mostraTela("t3");
+  });
+
+  /* =========================================================
+     TELA 3: a porta
+     ========================================================= */
+  $("btn-porta").addEventListener("click", () => {
+    $("portal").classList.add("aberta");
+    $("porta-wrap").classList.add("aberta");
+    $("btn-porta").hidden = true;
+    setTimeout(() => {
+      $("porta-aberta-txt").textContent = "Esse momento chegou! FESTA DA OCASIÃO";
+      $("pos-porta").hidden = false;
+      aoRolar();
+    }, tRed ? 0 : 1300);
+  });
+
+  /* =========================================================
+     POP-UP DA RESPOSTA
+     ========================================================= */
+  let modoModal = "resposta";
+  const passos = Array.from(modal.querySelectorAll(".passo"));
+  function mostraPasso(nome){
+    passos.forEach(p => { p.hidden = p.dataset.passo !== nome; });
+    const primeiro = modal.querySelector('.passo:not([hidden]) input, .passo:not([hidden]) button');
+    if(primeiro) setTimeout(() => primeiro.focus(), 60);
+  }
+  function abreModal(modo){
+    modoModal = modo || "resposta";
+    modal.hidden = false;
+    document.body.style.overflow = "hidden";
+    if(modoModal === "fotos") mostraPasso(nomeAtual ? "fotos" : "nome");
+    else mostraPasso("pergunta");
+  }
+  function fechaModal(){ modal.hidden = true; document.body.style.overflow = ""; }
+  $("btn-abrir-modal").addEventListener("click", () => abreModal("resposta"));
+  $("m-fechar").addEventListener("click", fechaModal);
+  modal.querySelectorAll("[data-fecha]").forEach(b => b.addEventListener("click", fechaModal));
+  modal.addEventListener("click", e => { if(e.target === modal) fechaModal(); });
+  addEventListener("keydown", e => { if(e.key === "Escape" && !modal.hidden) fechaModal(); });
+
+  // item 13: o pop-up abre sozinho uma vez, quando a pergunta aparece
+  let abriuAuto = false;
+  new IntersectionObserver(es => {
+    es.forEach(en => {
+      if(en.isIntersecting && !abriuAuto && !respondido && modal.hidden && !$("t3").hidden){
+        abriuAuto = true;
+        setTimeout(() => { if(modal.hidden && !respondido) abreModal("resposta"); }, tRed ? 0 : 700);
+      }
+    });
+  }, {threshold:.6}).observe($("q13"));
+
+  modal.querySelectorAll("[data-r]").forEach(b => b.addEventListener("click", () => {
+    resposta = b.dataset.r;
+    mostraPasso("nome");
+  }));
+
+  $("m-form-nome").addEventListener("submit", async ev => {
+    ev.preventDefault();
+    const st = $("m-st-nome"), btn = ev.target.querySelector('button[type="submit"]');
+    const nome = $("m-nome").value.trim();
+    if(!nome){ setStatus(st, "Escreve seu nome aí.", true); $("m-nome").focus(); return; }
+    nomeAtual = nome;
+    if(modoModal === "fotos"){ setStatus(st, ""); prepFotos(); mostraPasso("fotos"); return; }
+    btn.disabled = true; setStatus(st, "Guardando sua resposta...");
+    const banco = await pegaBanco();
+    salvouResposta = false;
+    if(banco){
+      try{
+        await banco.collection("rsvp").add({ nome, resposta, ocasioes: respostaOcasioes, criadoEm: Date.now() });
+        salvouResposta = true;
+      }catch(e){ salvouResposta = false; }
+    }
+    btn.disabled = false; setStatus(st, "");
+    respondido = true;
+    finale();
+  });
+
+  /* =========================================================
+     EXPLOSÃO e telas de "mensagem indisponível"
+     ========================================================= */
+  function finale(){
+    fechaModal();
+    document.body.classList.remove("tremor"); void document.body.offsetWidth;
+    document.body.classList.add("tremor");
+    fim.classList.add("on");
+    const r = $("rajada");
+    if(!tRed){
+      const cores = ["#d4ff1a","#ff2d7e","#2d3bff","#e9e4d4","#f1efe6"], formas = ["c","s","q"];
+      for(let i = 0; i < 72; i++){
+        const p = document.createElement("i");
+        p.className = "peca " + formas[i % 3];
+        p.style.setProperty("--c", cores[i % cores.length]);
+        const ang = Math.random() * Math.PI * 2, d = 30 + Math.random() * 70;
+        p.style.setProperty("--dx", (Math.cos(ang) * d).toFixed(1) + "vmax");
+        p.style.setProperty("--dy", (Math.sin(ang) * d).toFixed(1) + "vmax");
+        p.style.setProperty("--r", (Math.random() * 720 - 360).toFixed(0) + "deg");
+        p.style.animationDelay = (Math.random() * .15).toFixed(2) + "s";
+        r.appendChild(p);
+      }
+    }
+    setTimeout(() => fim.classList.add("preto"), tRed ? 0 : 1300);
+    setTimeout(() => {
+      r.innerHTML = "";
+      mostraTela("t4");
+      fim.classList.remove("on", "preto");
+      document.body.classList.remove("tremor");
+    }, tRed ? 200 : 2600);
+  }
+
+  const FRASES = {
+    sim: "Que bom que você confirmou a tempo! Bem, seguem os detalhes.",
+    talvez: "Espero que você consiga ir à nossa festa nessa ocasião! Bem, seguem os detalhes.",
+    nao: "Essa ocasião não vai ser a mesma sem você! Vou te mandar os detalhes mesmo assim, na esperança de você mudar de ideia!"
+  };
+  $("btn-tentar").addEventListener("click", () => {
+    $("frase-resposta").textContent = FRASES[resposta] || FRASES.sim;
+    mostraTela("t5");
+  });
+  $("btn-detalhes").addEventListener("click", () => {
+    $("aviso-falha").hidden = salvouResposta;
+    mostraTela("t6");
+  });
+  $("btn-enviar-fotos").addEventListener("click", () => { prepFotos(); abreModal("fotos"); });
+
+  /* =========================================================
+     BANCO e FOTOS
+     ========================================================= */
+  async function pegaBanco(){
+    if(db) return db;
+    if(window.claude && claude.use){
+      try { db = await claude.use("db"); } catch(e){ db = null; }
+    } else if(window.parent && window.parent !== window){
+      db = bancoWix();
+    }
+    return db;
+  }
+
+  /* Dentro de uma página da Wix (elemento Embed HTML): quem guarda os dados
+     é o código da página, que conversa com este convite por postMessage. */
+  function bancoWix(){
+    let seq = 0;
+    const pendentes = {};
+    let alvo = "*";
+    try { if(document.referrer) alvo = new URL(document.referrer).origin; } catch(e){}
+    addEventListener("message", ev => {
+      const m = ev.data;
+      if(!m || !m.festaResp || !pendentes[m.id]) return;
+      const [ok, falha] = pendentes[m.id];
+      delete pendentes[m.id];
+      if(m.ok) ok(m.res || {}); else falha({ code: m.erro || "unavailable" });
+    });
+    const pede = (op, dados) => new Promise((ok, falha) => {
+      const id = ++seq;
+      pendentes[id] = [ok, falha];
+      window.parent.postMessage(Object.assign({ festa: true, id, op }, dados), alvo);
+      setTimeout(() => { if(pendentes[id]){ delete pendentes[id]; falha({ code: "unavailable" }); } }, 30000);
+    });
+    return {
+      collection(nome){
+        return {
+          add: doc => pede("add", { col: nome, doc }),
+          where: (campo, op, valor) => ({
+            limit: () => ({
+              get: async () => {
+                const r = await pede("conta", { col: nome, campo, valor });
+                return { size: r.total || 0, docs: [] };
+              }
+            })
+          }),
+          orderBy: () => ({
+            limit: n => ({
+              onSnapshot(proximo, erro){
+                const busca = async () => {
+                  try{
+                    const r = await pede("lista", { col: nome, limite: n });
+                    proximo({ docs: (r.itens || []).map(d => ({ exists: true, data: () => d })) });
+                  }catch(e){ if(erro) erro(e); }
+                };
+                busca();
+                const t = setInterval(busca, 15000);
+                return () => clearInterval(t);
+              }
+            })
+          })
+        };
+      }
+    };
+  }
+  const chaveNome = s => s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/\s+/g," ").trim();
+  function msgErro(e){
+    const c = e && e.code;
+    if(c === "resource_exhausted") return "Muitas tentativas seguidas. Espera um pouco e tenta de novo.";
+    if(c === "quota_exceeded") return "O espaço de fotos da festa encheu. Avisa a gente.";
+    if(c === "not_granted" || c === "capability_disabled" || c === "capability_removed") return "Não foi possível salvar aqui. Confere se você está logada.";
+    if(c === "invalid_argument") return "Essa foto não coube. Tenta outra.";
+    return "Não consegui salvar agora. Tenta de novo em instantes.";
+  }
+  function setStatus(el, texto, erro){ el.textContent = texto; el.classList.toggle("erro", !!erro); }
+  function prepFotos(){ $("m-saud").textContent = nomeAtual ? `Oi, ${nomeAtual}.` : ""; }
+
+  function comprime(file){
+    return createImageBitmap(file).then(bmp => {
+      const escala = Math.min(1, 1100 / Math.max(bmp.width, bmp.height));
+      const c = document.createElement("canvas");
+      c.width = Math.round(bmp.width * escala); c.height = Math.round(bmp.height * escala);
+      c.getContext("2d").drawImage(bmp, 0, 0, c.width, c.height);
+      for(let q = 0.8; q >= 0.4; q -= 0.08){
+        const url = c.toDataURL("image/jpeg", q);
+        if(url.length < 190000) return url;
+      }
+      return c.toDataURL("image/jpeg", 0.35);
+    });
+  }
+  $("m-arquivos").addEventListener("change", ev => {
+    const n = ev.target.files.length, el = $("m-contador");
+    el.textContent = n ? `${n} de 10 escolhidas` : "Nenhuma foto escolhida";
+    if(n > 10) el.textContent = `${n} escolhidas. O máximo é 10.`;
+  });
+  $("m-form-fotos").addEventListener("submit", async ev => {
+    ev.preventDefault();
+    const st = $("m-st-fotos"), btn = $("m-btn-fotos");
+    const arquivos = Array.from($("m-arquivos").files || []);
+    if(!arquivos.length){ setStatus(st, "Escolhe pelo menos uma foto.", true); return; }
+    const banco = await pegaBanco();
+    if(!banco){ setStatus(st, "Não consegui conectar ao convite. Tenta de novo.", true); return; }
+    btn.disabled = true; setStatus(st, "Conferindo suas fotos...");
+    try{
+      const chave = chaveNome(nomeAtual);
+      const ja = await banco.collection("fotos").where("autorKey","==",chave).limit(11).get();
+      const restam = 10 - ja.size;
+      if(restam <= 0){ setStatus(st, "Você já enviou as suas 10 fotos. Obrigada!", true); return; }
+      if(arquivos.length > restam){ setStatus(st, `Ainda cabem ${restam} fotos para você. Tira algumas da seleção.`, true); return; }
+      let enviadas = 0;
+      for(const f of arquivos){
+        setStatus(st, `Enviando ${enviadas + 1} de ${arquivos.length}...`);
+        const dataUrl = await comprime(f);
+        await banco.collection("fotos").add({ autor: nomeAtual, autorKey: chave, dataUrl, criadoEm: Date.now() + enviadas });
+        enviadas++;
+      }
+      setStatus(st, `${enviadas} foto(s) enviada(s). Vão ao telão na festa. Pode mandar mais até 31 de dezembro.`);
+      $("m-arquivos").value = ""; $("m-contador").textContent = "Nenhuma foto escolhida";
+    }catch(e){
+      setStatus(st, msgErro(e), true);
+    }finally{ btn.disabled = false; }
+  });
+
+  /* =========================================================
+     TELÃO (#telao)
+     ========================================================= */
+  let fotos = [], idx = 0, iniciado = false;
+  const conteudo = $("telao-conteudo");
+  function desenhaTelao(){
+    conteudo.innerHTML = "";
+    if(!fotos.length){
+      const v = document.createElement("p");
+      v.className = "vazio";
+      v.innerHTML = "As fotos chegam aqui.<br><span>Manda a sua pelo convite.</span>";
+      conteudo.appendChild(v); return;
+    }
+    const i = idx % fotos.length, f = fotos[i];
+    const img = document.createElement("img");
+    img.alt = "Foto enviada por " + f.autor;
+    img.src = f.dataUrl;
+    const leg = document.createElement("div");
+    leg.className = "legenda";
+    const s = document.createElement("small");
+    s.textContent = `${i + 1} de ${fotos.length} · foto de`;
+    leg.appendChild(s);
+    leg.appendChild(document.createTextNode(f.autor));
+    conteudo.appendChild(img); conteudo.appendChild(leg);
+  }
+  async function iniciaTelao(){
+    if(iniciado) return; iniciado = true;
+    const banco = await pegaBanco();
+    if(!banco){ conteudo.innerHTML = '<p class="vazio">Sem conexão com as fotos.<br><span>Recarrega a página.</span></p>'; return; }
+    banco.collection("fotos").orderBy("criadoEm","desc").limit(60).onSnapshot(snap => {
+      fotos = snap.docs.filter(d => d.exists).map(d => d.data()).filter(Boolean).reverse();
+      desenhaTelao();
+    }, () => { conteudo.innerHTML = '<p class="vazio">Conexão caiu.<br><span>Recarrega a página.</span></p>'; });
+    setInterval(() => { if(fotos.length){ idx = (idx + 1) % fotos.length; desenhaTelao(); } }, 6500);
+  }
+  telao.addEventListener("click", e => {
+    if(e.target.id === "btn-cheia") return;
+    if(fotos.length){ idx = (idx + 1) % fotos.length; desenhaTelao(); }
+  });
+  $("btn-cheia").addEventListener("click", e => {
+    e.stopPropagation();
+    try{ const p = document.documentElement.requestFullscreen && document.documentElement.requestFullscreen(); if(p && p.catch) p.catch(()=>{}); }catch(err){}
+  });
+  function rota(){
+    if(location.hash === "#telao" || window.FESTA_MODO === "telao"){
+      TELAS.forEach(t => { t.hidden = true; });
+      telao.hidden = false;
+      iniciaTelao();
+    } else {
+      telao.hidden = true;
+    }
+  }
+  addEventListener("hashchange", rota);
+
+  /* =========================================================
+     PARALLAX DO MOUSE no fundo de linhas
+     ========================================================= */
+  const fundo = document.querySelector(".fundo");
+  if(!tRed && matchMedia("(hover: hover) and (pointer: fine)").matches){
+    const p = { x:0, y:0, tx:0, ty:0 };
+    addEventListener("pointermove", e => {
+      p.tx = (e.clientX / innerWidth - .5) * 2;
+      p.ty = (e.clientY / innerHeight - .5) * 2;
+    }, {passive:true});
+    (function anima(){
+      p.x += (p.tx - p.x) * .08; p.y += (p.ty - p.y) * .08;
+      fundo.style.setProperty("--fx", (-p.x * 16).toFixed(1) + "px");
+      fundo.style.setProperty("--fy", (-p.y * 16).toFixed(1) + "px");
+      requestAnimationFrame(anima);
+    })();
+  }
+
+  rota();
+})();
+</script>
