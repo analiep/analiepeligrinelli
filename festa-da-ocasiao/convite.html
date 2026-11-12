@@ -191,6 +191,8 @@ h2.titulo em{font-style:normal; color:var(--acid)}
 .opcoes .btn{text-align:left; width:100%; box-shadow:5px 5px 0 var(--hot); font-size:13px}
 .fechar{position:absolute; top:10px; right:10px; background:transparent; color:var(--fg); border:2px solid var(--fg); width:38px; height:38px; font:700 20px/1 "Space Mono",monospace; cursor:pointer}
 .fechar:hover{background:var(--fg); color:var(--ink)}
+.miniaturas{display:flex; flex-wrap:wrap; gap:12px; margin-top:18px}
+.miniaturas img{width:76px; height:76px; object-fit:cover; border:5px solid var(--paper); border-bottom-width:14px; box-shadow:4px 4px 0 var(--hot); transform:rotate(var(--r,0deg)); animation:entrada .5s both}
 
 /* ===== EXPLOSÃO ===== */
 .fim{position:fixed; inset:0; z-index:70; display:none; overflow:hidden; background:rgba(13,13,12,0); transition:background 1.2s ease}
@@ -462,7 +464,7 @@ h2.titulo em{font-style:normal; color:var(--acid)}
   <div class="cartao">
     <p class="rotulo">Fotos</p>
     <p class="txt">Fotos de outras ocasiões especiais em que estivemos juntos.</p>
-    <p class="ajuda">Até 10 fotos por pessoa, até 31 de dezembro. Elas passam no telão do bar.</p>
+    <p class="ajuda" id="ajuda-fotos">Até 10 fotos por pessoa, até 18 de novembro. Elas passam no telão do bar no dia da festa.</p>
     <button class="btn grande" type="button" id="btn-enviar-fotos">Enviar fotos</button>
   </div>
   <p class="aviso-falha" id="aviso-falha" hidden>Não conseguimos registrar a sua resposta. Avise as aniversariantes por mensagem.</p>
@@ -504,7 +506,7 @@ h2.titulo em{font-style:normal; color:var(--acid)}
       <p class="n">Fotos</p>
       <h4>Vale qualquer ocasião.</h4>
       <p id="m-saud"></p>
-      <p>Manda até 10 fotos com as aniversariantes, de outras ocasiões especiais em que estivemos juntos. Pode mandar até 31 de dezembro.</p>
+      <p>Manda até 10 fotos com as aniversariantes, de outras ocasiões especiais em que estivemos juntos. Pode mandar até 18 de novembro.</p>
       <form id="m-form-fotos" novalidate style="margin-top:18px">
         <div class="campo">
           <span class="arquivo">
@@ -517,6 +519,17 @@ h2.titulo em{font-style:normal; color:var(--acid)}
         <p class="status" id="m-st-fotos" role="status"></p>
       </form>
       <button class="btn sec" type="button" data-fecha style="margin-top:18px">Fechar</button>
+    </div>
+
+    <div class="passo" data-passo="fotos-ok" hidden>
+      <p class="n">Fotos</p>
+      <h4 id="ok-titulo">Foto recebida!</h4>
+      <div class="miniaturas" id="ok-minis" aria-hidden="true"></div>
+      <p id="ok-texto"></p>
+      <div class="opcoes">
+        <button class="btn" type="button" id="m-mais-fotos">Mandar mais fotos</button>
+        <button class="btn sec" type="button" data-fecha>Fechar</button>
+      </div>
     </div>
   </div>
 </div>
@@ -1057,7 +1070,36 @@ h2.titulo em{font-style:normal; color:var(--acid)}
     return "Não consegui salvar agora. Tenta de novo em instantes.";
   }
   function setStatus(el, texto, erro){ el.textContent = texto; el.classList.toggle("erro", !!erro); }
-  function prepFotos(){ $("m-saud").textContent = nomeAtual ? `Oi, ${nomeAtual}.` : ""; }
+  // Envio de fotos aceito até o fim de 18/11/2026 (horário de Brasília)
+  const PRAZO_FOTOS = new Date("2026-11-18T23:59:59-03:00").getTime();
+  const prazoAcabou = () => Date.now() > PRAZO_FOTOS;
+  function prepFotos(){
+    $("m-saud").textContent = nomeAtual ? `Oi, ${nomeAtual}.` : "";
+    const fechado = prazoAcabou();
+    $("m-form-fotos").querySelectorAll("input,button").forEach(el => { el.disabled = fechado; });
+    setStatus($("m-st-fotos"), fechado ? "O envio de fotos encerrou em 18 de novembro. Obrigada!" : "", fechado);
+  }
+  if(prazoAcabou()){
+    $("ajuda-fotos").textContent = "O envio de fotos encerrou em 18 de novembro.";
+    $("btn-enviar-fotos").hidden = true;
+  }
+  function mostraConclusao(enviadas, restantes, previas){
+    $("ok-titulo").textContent = enviadas > 1 ? `${enviadas} fotos recebidas!` : "Foto recebida!";
+    const minis = $("ok-minis");
+    minis.innerHTML = "";
+    previas.forEach((src, i) => {
+      const img = document.createElement("img");
+      img.src = src; img.alt = "";
+      img.style.setProperty("--r", (i % 2 ? 4 : -4) + "deg");
+      img.style.animationDelay = (i * .08) + "s";
+      minis.appendChild(img);
+    });
+    $("ok-texto").textContent = (enviadas > 1 ? "Elas vão" : "Ela vai") + " passar no telão do Bar 1953 no dia 19/11. " +
+      (restantes > 0 ? `Você ainda pode mandar mais ${restantes} até 18 de novembro.` : "Você já mandou as suas 10 fotos. Obrigada!");
+    $("m-mais-fotos").hidden = restantes <= 0;
+    mostraPasso("fotos-ok");
+  }
+  $("m-mais-fotos").addEventListener("click", () => { prepFotos(); mostraPasso("fotos"); });
 
   function comprime(file){
     return createImageBitmap(file).then(bmp => {
@@ -1081,6 +1123,7 @@ h2.titulo em{font-style:normal; color:var(--acid)}
     ev.preventDefault();
     const st = $("m-st-fotos"), btn = $("m-btn-fotos");
     const arquivos = Array.from($("m-arquivos").files || []);
+    if(prazoAcabou()){ setStatus(st, "O envio de fotos encerrou em 18 de novembro. Obrigada!", true); return; }
     if(!arquivos.length){ setStatus(st, "Escolhe pelo menos uma foto.", true); return; }
     const banco = await pegaBanco();
     if(!banco){ setStatus(st, "Não consegui conectar ao convite. Tenta de novo.", true); return; }
@@ -1092,14 +1135,17 @@ h2.titulo em{font-style:normal; color:var(--acid)}
       if(restam <= 0){ setStatus(st, "Você já enviou as suas 10 fotos. Obrigada!", true); return; }
       if(arquivos.length > restam){ setStatus(st, `Ainda cabem ${restam} fotos para você. Tira algumas da seleção.`, true); return; }
       let enviadas = 0;
+      const previas = [];
       for(const f of arquivos){
         setStatus(st, `Enviando ${enviadas + 1} de ${arquivos.length}...`);
         const dataUrl = await comprime(f);
         await banco.collection("fotos").add({ autor: nomeAtual, autorKey: chave, dataUrl, criadoEm: Date.now() + enviadas });
+        previas.push(dataUrl);
         enviadas++;
       }
-      setStatus(st, `${enviadas} foto(s) enviada(s). Vão ao telão na festa. Pode mandar mais até 31 de dezembro.`);
+      setStatus(st, "");
       $("m-arquivos").value = ""; $("m-contador").textContent = "Nenhuma foto escolhida";
+      mostraConclusao(enviadas, restam - enviadas, previas);
     }catch(e){
       setStatus(st, msgErro(e), true);
     }finally{ btn.disabled = false; }
