@@ -53,14 +53,16 @@ Confirmação e fotos precisam do código da página (Velo), que hoje está desl
 Siga o passo "Enable coding" deste guia oficial:
 https://dev.wix.com/docs/develop-websites/articles/getting-started/quick-start#step-1--enable-coding
 
-## 6. Criar as coleções do banco
+## 6. Coleções do banco (já feito)
 
-Depois do passo 5, avise o Claude para criar estas duas coleções pela API. Se preferir, crie no CMS:
+O Claude instalou o app **Wix CMS** no site e criou as duas coleções pela API em 12/11/2026:
 
 | Coleção | Campos | Permissões |
 |---|---|---|
 | `FestaRSVP` | nome, resposta, ocasioes, criadoEm | Qualquer pessoa pode **adicionar**; só administradores **leem** |
 | `FestaFotos` | autor, autorKey, dataUrl, criadoEm | Qualquer pessoa pode **adicionar** e **ler** |
+
+As duas aparecem no CMS do painel do site, com os nomes "Festa da Ocasião - Confirmações" e "Festa da Ocasião - Fotos".
 
 ## 7. Colar o código da página
 
