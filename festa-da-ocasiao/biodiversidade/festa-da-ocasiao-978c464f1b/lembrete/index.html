@@ -96,17 +96,14 @@ body{
 
 /* ===== cena 3 ===== */
 #c3{justify-content:flex-start; padding-top:12cqw}
-.recorte{
-  position:relative; width:74cqw; align-self:center; background:#fff; padding:2cqw 2cqw 8cqw;
-  box-shadow:0 2cqw 0 rgba(0,0,0,.4); transform:rotate(-5deg) translateY(-120cqh);
-}
-.recorte img{display:block; width:100%; height:auto}
-.recorte .nome{position:absolute; left:3cqw; bottom:1.4cqw; color:var(--ink); font-size:5.4cqw}
-.fita{position:absolute; width:22cqw; height:6cqw; background:rgba(212,255,26,.75); top:-2.5cqw; left:50%; margin-left:-11cqw; transform:rotate(4deg)}
-.on .recorte.in{transform:rotate(-5deg); transition:transform .55s cubic-bezier(.3,1.5,.5,1)}
-.contorno{position:absolute; inset:-2cqw; border:.8cqw solid var(--hot); animation:treme .18s steps(2) infinite}
-@keyframes treme{50%{transform:translate(.6cqw,-.4cqw) rotate(.6deg)}}
-.notas span{position:absolute; font-size:11cqw; color:var(--acid); animation:pula 1s ease-in-out infinite}
+.cantor{width:72cqw; align-self:center; overflow:visible; transform:translateY(-120cqh)}
+.on .cantor.in{transform:none; transition:transform .55s cubic-bezier(.3,1.4,.5,1)}
+.cantor .braco{transform-origin:100px 76px; animation:toca .3s ease-in-out infinite alternate}
+@keyframes toca{to{transform:rotate(-9deg)}}
+.cantor .cabeca{transform-origin:100px 40px; animation:balanca 1.2s ease-in-out infinite}
+@keyframes balanca{50%{transform:rotate(6deg)}}
+.palco3{position:relative; align-self:center}
+.notas span{position:absolute; font-size:10cqw; color:var(--acid); animation:pula 1s ease-in-out infinite}
 .notas span:nth-child(2){color:var(--hot); animation-delay:.3s}
 .notas span:nth-child(3){animation-delay:.6s}
 @keyframes pula{0%,100%{transform:translateY(0) rotate(-10deg)}50%{transform:translateY(-3cqw) rotate(10deg)}}
@@ -122,20 +119,15 @@ body{
 /* ===== cena 4 ===== */
 #c4{justify-content:flex-start}
 .espiada{font-size:6.6cqw; font-weight:700; margin:4cqw 0 0; min-height:2.8em}
-.armario{position:absolute; left:50%; top:30cqh; width:56cqw; height:48cqh; margin-left:-28cqw; perspective:120cqw}
-.armario .fundo{position:absolute; inset:0; background:#000; border:.8cqw solid var(--fg)}
-.armario .porta{position:absolute; inset:0; background:#1d1d1b; border:.8cqw solid var(--fg); transform-origin:left center; transition:transform .7s cubic-bezier(.5,0,.3,1.3)}
-.armario .porta::after{content:""; position:absolute; right:4cqw; top:50%; width:2.6cqw; height:2.6cqw; border-radius:50%; background:var(--acid)}
-.armario.abre .porta{transform:rotateY(-105deg)}
-.espiona{position:absolute; right:-14cqw; top:6cqh; width:22cqw; transition:opacity .3s}
-.armario.abre .espiona{opacity:0}
-.comida{position:absolute; width:27cqw; background:#fff; padding:1.4cqw 1.4cqw 6cqw; box-shadow:0 1.5cqw 0 rgba(0,0,0,.45); opacity:0; transform:translate(var(--x0,0),var(--y0,0)) scale(.2) rotate(0)}
-.comida img{display:block; width:100%; aspect-ratio:3/4; object-fit:cover}
-.comida.drk{width:22cqw}
-.comida b{position:absolute; left:1.4cqw; bottom:1.2cqw; background:var(--ink); color:var(--acid); font-size:2.8cqw; padding:.4cqw 1.4cqw; letter-spacing:.06em; font-family:"Space Mono",monospace}
-.comida.in{opacity:1; transform:translate(var(--x),var(--y)) rotate(var(--r)); transition:transform .45s cubic-bezier(.3,1.6,.5,1), opacity .15s}
+.pratos{display:flex; flex-wrap:wrap; justify-content:center; gap:5cqw 0; margin-top:6cqw}
+.prato{flex:0 0 33.33%}
+.prato{display:flex; flex-direction:column; align-items:center; gap:1.5cqw; opacity:0; transform:scale(.2) rotate(-20deg)}
+.prato svg{width:22cqw; height:22cqw; overflow:visible}
+.prato b{font-size:3.2cqw; letter-spacing:.06em; color:var(--acid); text-align:center; line-height:1.2}
+.prato.in{opacity:1; transform:none; transition:transform .4s cubic-bezier(.3,1.7,.5,1), opacity .1s}
+.prato:nth-child(even).in{transform:rotate(4deg)}
 .carimbo{
-  position:absolute; left:8cqw; right:8cqw; top:44cqh; z-index:5; text-align:center;
+  position:absolute; left:8cqw; right:8cqw; bottom:8cqh; z-index:5; text-align:center;
   border:1.2cqw solid var(--hot); color:var(--hot); background:rgba(13,13,12,.85);
   font-size:9cqw; padding:2cqw; transform:rotate(-8deg) scale(3); opacity:0;
 }
@@ -220,12 +212,29 @@ body{
   </section>
 
   <section class="cena" id="c3" aria-hidden="true">
-    <div class="recorte x" id="recorte">
-      <span class="contorno"></span>
-      <span class="fita"></span>
-      <img src="https://static.wixstatic.com/media/8895c9_490730a0353742638cb569ff4e825d8d~mv2.jpg" alt="">
-      <span class="anton nome">Ao vivo</span>
-      <div class="notas"><span style="left:-8cqw; top:6cqw">♪</span><span style="right:-7cqw; top:-4cqw">♫</span><span style="right:-6cqw; bottom:10cqw">♪</span></div>
+    <div class="palco3">
+      <svg class="cantor x" id="recorte" viewBox="0 0 200 220" aria-hidden="true">
+        <g fill="none" stroke="#f1efe6" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M66 150 H134 M76 150 L68 214 M124 150 L132 214 M72 186 H128"/>
+          <path d="M100 58 L100 146 M100 146 L128 150 L130 208 M100 146 L78 152 L74 208"/>
+          <path d="M100 78 L134 94 L162 70"/>
+          <g class="cabeca">
+            <circle cx="100" cy="38" r="19" fill="#0d0d0c"/>
+            <path d="M82 32 q4 -18 20 -16 q14 2 16 14" stroke-width="5"/>
+            <circle cx="93" cy="40" r="5" stroke-width="2.5"/><circle cx="108" cy="40" r="5" stroke-width="2.5"/><path d="M98 40 h5" stroke-width="2.5"/>
+            <path d="M92 50 q8 6 16 0" stroke-width="2.5"/>
+          </g>
+        </g>
+        <g transform="rotate(-32 100 118)">
+          <rect x="112" y="112" width="70" height="9" rx="2" fill="#f1efe6"/>
+          <rect x="178" y="108" width="14" height="17" rx="3" fill="#ff2d7e"/>
+          <path d="M60 116 c0 -22 24 -24 32 -14 c8 -10 30 -8 30 14 c0 22 -22 24 -30 14 c-8 10 -32 8 -32 -14z" fill="#d4ff1a" stroke="#0d0d0c" stroke-width="3"/>
+          <circle cx="98" cy="116" r="7" fill="#0d0d0c"/>
+          <path d="M70 116 h4" stroke="#0d0d0c" stroke-width="4"/>
+        </g>
+        <path class="braco" d="M100 78 L76 108 L96 126" fill="none" stroke="#f1efe6" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <div class="notas"><span style="left:-6cqw; top:4cqw">♪</span><span style="right:-4cqw; top:-2cqw">♫</span><span style="right:2cqw; top:24cqw">♪</span></div>
     </div>
     <div class="vai x">Vai rolar música ao vivo com</div>
     <div class="anton zanetti x">Marcos Zanetti</div>
@@ -238,25 +247,15 @@ body{
 
   <section class="cena" id="c4" aria-hidden="true">
     <div class="espiada" id="espiada"></div>
-    <div class="armario" id="armario">
-      <div class="fundo"></div>
-      <div class="porta"></div>
-      <svg class="espiona" viewBox="0 0 60 120" aria-hidden="true">
-        <g fill="none" stroke="#f1efe6" stroke-width="3" stroke-linecap="round">
-          <circle cx="22" cy="22" r="12" fill="#0d0d0c"/>
-          <path d="M10 16 q-2 -14 12 -14 q12 0 14 12" stroke="#ff2d7e"/>
-          <path d="M22 34 L22 82 M22 50 L4 40 M22 82 L12 116 M22 82 L32 116"/>
-        </g>
-        <circle cx="16" cy="21" r="2" fill="#f1efe6"/><circle cx="23" cy="21" r="2" fill="#f1efe6"/>
-      </svg>
+    <div class="pratos">
+      <div class="prato"><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M50 14 C40 30 22 50 22 68 C22 84 36 90 50 90 C64 90 78 84 78 68 C78 50 60 30 50 14Z" fill="#e8a33d" troke="#f1efe6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M36 64 q6 4 10 0 M54 72 q6 4 10 0" stroke="#0d0d0c" stroke-width="2.5" fill="none"/></svg><b>COXINHA</b></div>
+      <div class="prato"><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M16 66 C24 30 70 22 86 44" fill="none" stroke="#9e1b3a" stroke-width="18" stroke-linecap="round"/><circle cx="34" cy="76" r="11" fill="#9e1b3a" troke="#f1efe6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="58" cy="80" r="11" fill="#9e1b3a" troke="#f1efe6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M30 74 h2 M38 80 h2 M55 78 h2 M62 83 h2" stroke="#f1efe6" stroke-width="2.5"/><path d="M72 70 l14 -6 l-2 14z" fill="#d4ff1a" stroke="#0d0d0c" stroke-width="2"/></svg><b>CHOURIÇO</b></div>
+      <div class="prato"><svg viewBox="0 0 100 100" aria-hidden="true"><ellipse cx="50" cy="72" rx="42" ry="14" fill="#2a2a27" stroke="#f1efe6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><rect x="12" y="44" width="34" height="18" rx="9" fill="#e8a33d" transform="rotate(-18 29 53)" stroke="#f1efe6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><rect x="30" y="56" width="34" height="18" rx="9" fill="#e8a33d" transform="rotate(10 47 65)" stroke="#f1efe6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><rect x="20" y="24" width="32" height="17" rx="8.5" fill="#e8a33d" transform="rotate(25 36 32)" stroke="#f1efe6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M58 40 h30 l-4 18 h-22z" fill="#f1efe6" stroke="#0d0d0c" stroke-width="2"/><ellipse cx="73" cy="40" rx="15" ry="5" fill="#fff6c2" stroke="#0d0d0c" stroke-width="2"/><path d="M22 50 h2 M40 64 h2 M32 30 h2" stroke="#0d0d0c" stroke-width="3"/></svg><b>ISCA C/ CATUPIRY</b></div>
+      <div class="prato"><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M14 46 C14 18 86 18 86 46Z" fill="#e8a33d" troke="#f1efe6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 54 l8 -6 l8 6 l8 -6 l8 6 l8 -6 l8 6 l8 -6 l8 6 l8 -6" stroke="#7bd94b" stroke-width="4" fill="none" stroke-linecap="round"/><rect x="14" y="58" width="72" height="10" rx="4" fill="#7a3b1e" troke="#f1efe6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 72 h72 v6 c0 6 -6 10 -12 10 h-48 c-6 0 -12 -4 -12 -10z" fill="#e8a33d" troke="#f1efe6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M34 30 h2 M50 26 h2 M64 32 h2" stroke="#0d0d0c" stroke-width="3"/></svg><b>LANCHE</b></div>
+      <div class="prato"><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M44 8 h12 v18 c10 6 12 14 12 24 v40 h-36 v-40 c0 -10 2 -18 12 -24z" fill="#5a3410" troke="#f1efe6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><rect x="34" y="50" width="32" height="22" fill="#d4ff1a" stroke="#0d0d0c" stroke-width="2"/><rect x="43" y="4" width="14" height="6" fill="#ff2d7e"/></svg><b>CERVEJA</b></div>
+      <div class="prato"><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M24 26 h52 l-6 64 h-40z" fill="rgba(212,255,26,.25)" troke="#f1efe6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M38 70 l10 -14 l8 14z M52 52 l12 -6 l-2 14z" fill="#7bd94b" stroke="#0d0d0c" stroke-width="2"/><path d="M60 8 l-12 70" stroke="#ff2d7e" stroke-width="3"/><path d="M30 40 h4 M44 36 h4 M62 42 h4" stroke="#f1efe6" stroke-width="3"/></svg><b>CAIPIRINHA</b></div>
+      <div class="prato"><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M20 18 h60 c0 26 -14 38 -30 38 c-16 0 -30 -12 -30 -38z" fill="#ff6a00" troke="#f1efe6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M50 56 v28 M34 88 h32" fill="none" stroke="#f1efe6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="72" cy="20" r="11" fill="#ffb300" stroke="#0d0d0c" stroke-width="2"/><path d="M72 12 v16 M64 20 h16" stroke="#0d0d0c" stroke-width="1.5"/></svg><b>DRINKS</b></div>
     </div>
-    <div class="comida" style="--x:-24cqw;--y:-14cqh;--r:-8deg;left:36.5cqw;top:40cqh"><img src="https://static.wixstatic.com/media/8895c9_2e38d7df232f45f486235dbca9d4b00f~mv2.jpg" alt=""><b>COXINHA</b></div>
-    <div class="comida" style="--x:24cqw;--y:-15cqh;--r:7deg;left:36.5cqw;top:40cqh"><img src="https://static.wixstatic.com/media/8895c9_43c6a77965ff4ae084e8f2a2695091d2~mv2.jpg" alt=""><b>CHOURIÇO</b></div>
-    <div class="comida" style="--x:-24cqw;--y:10cqh;--r:6deg;left:36.5cqw;top:40cqh"><img src="https://static.wixstatic.com/media/8895c9_1e13c3bde5ca4c53acb3f2db0f97c621~mv2.jpg" alt=""><b>ISCA C/ CATUPIRY</b></div>
-    <div class="comida" style="--x:24cqw;--y:9cqh;--r:-6deg;left:36.5cqw;top:40cqh"><img src="https://static.wixstatic.com/media/8895c9_6510400792c2417da251a7bd8c2c540a~mv2.jpg" alt=""><b>LANCHE</b></div>
-    <div class="comida drk" style="--x:-30cqw;--y:35cqh;--r:-5deg;left:39cqw;top:40cqh"><img src="https://static.wixstatic.com/media/8895c9_f98927645ccf478e94c70e403caebcf3~mv2.jpg" alt=""><b>CERVEJA</b></div>
-    <div class="comida drk" style="--x:0cqw;--y:33cqh;--r:4deg;left:39cqw;top:40cqh"><img src="https://static.wixstatic.com/media/8895c9_e66b4eddfe3840239c9c8d75d84b49cd~mv2.jpg" alt=""><b>CAIPIRINHA</b></div>
-    <div class="comida drk" style="--x:30cqw;--y:35cqh;--r:-6deg;left:39cqw;top:40cqh"><img src="https://static.wixstatic.com/media/8895c9_d6c78df2445245e08bbd5d072f2efa32~mv2.jpg" alt=""><b>DRINKS</b></div>
     <div class="anton carimbo" id="carimbo">Tudo uma delícia<small>· aprovado pelas aniversariantes ·</small></div>
   </section>
 
@@ -353,7 +352,7 @@ body{
     timers.forEach(clearTimeout); timers = [];
     document.querySelectorAll(".in").forEach(function(e){ e.classList.remove("in"); });
     ["msg"].forEach(function(id){ $(id).classList.remove("risca", "cai"); });
-    $("relogio").classList.remove("para"); $("armario").classList.remove("abre");
+    $("relogio").classList.remove("para");
     $("autod").classList.remove("on"); $("fogo").classList.remove("on"); $("fogo").innerHTML = "";
     document.querySelectorAll(".look").forEach(function(l){ l.classList.remove("on"); });
     $("digita").textContent = ""; $("espiada").textContent = "";
@@ -385,9 +384,8 @@ body{
 
     /* 4 · espiadinha no cardápio */
     em(11600, function(){ cena("c4"); fala("E uma espiadinha no cardápio do bar. Tudo uma delícia."); digita($("espiada"), "E uma espiadinha no cardápio…", 900); });
-    em(12900, function(){ $("armario").classList.add("abre"); som("chiado"); });
-    var cs = document.querySelectorAll("#c4 .comida");
-    cs.forEach(function(c, i){ em(13400 + i * 480, function(){ c.classList.add("in"); som("pop"); }); });
+    var cs = document.querySelectorAll("#c4 .prato");
+    cs.forEach(function(c, i){ em(12800 + i * 500, function(){ c.classList.add("in"); som("pop"); }); });
     em(17200, function(){ mostra("#carimbo"); som("tum"); });
 
     /* 5 · fechamento */
