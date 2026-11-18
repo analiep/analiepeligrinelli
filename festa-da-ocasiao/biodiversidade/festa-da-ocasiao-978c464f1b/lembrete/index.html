@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0d0d0c">
 <meta name="description" content="Mensagem disponível por pouco tempo. Toque para abrir.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://instant-gqwloqleqice-analiework-140a.wix-site-host.com/festa-da-ocasiao-978c464f1b/lembrete/index.html">
@@ -161,6 +162,25 @@ body{
 .tremeforte{animation:tremeforte .5s linear}
 @keyframes tremeforte{10%,50%,90%{transform:translate(-2cqw,1cqw) rotate(-1deg)}30%,70%{transform:translate(2cqw,-1cqw) rotate(1deg)}}
 
+/* ===== transições ===== */
+.tr{position:absolute; inset:0; z-index:25; pointer-events:none; overflow:hidden}
+.tr i{position:absolute; display:block}
+.tr.glitch i{left:0; right:0; height:12.6%; animation:fatia .62s cubic-bezier(.7,0,.3,1) both}
+.tr.glitch i:nth-child(odd){animation-name:fatiaR}
+@keyframes fatia{0%{transform:translateX(-101%)}40%,60%{transform:none}100%{transform:translateX(101%)}}
+@keyframes fatiaR{0%{transform:translateX(101%)}40%,60%{transform:none}100%{transform:translateX(-101%)}}
+.tr.circulo i{inset:0; background:var(--hot); animation:circulo .7s cubic-bezier(.7,0,.3,1) both}
+@keyframes circulo{0%{clip-path:circle(0% at 50% 30%)}45%,55%{clip-path:circle(120% at 50% 30%)}100%{clip-path:circle(0% at 50% 30%)}}
+.tr.circulo i + i{background:var(--bg); animation-name:circulo2}
+@keyframes circulo2{0%,40%{clip-path:circle(0% at 50% 30%)}50%{clip-path:circle(130% at 50% 30%)}60%,100%{clip-path:circle(0% at 50% 30%); opacity:0}}
+.tr.persiana i{top:0; bottom:0; width:16.8%; animation:persiana .62s cubic-bezier(.7,0,.3,1) both}
+@keyframes persiana{0%{transform:translateY(-101%)}40%,60%{transform:none}100%{transform:translateY(101%)}}
+.tr.flash{background:#fff; animation:flash .45s ease-out both}
+@keyframes flash{0%{opacity:0}25%{opacity:1}100%{opacity:0}}
+.carimbo.engole{transform:rotate(-8deg) scale(14)!important; background:var(--hot); transition:transform .38s cubic-bezier(.6,0,.9,.4), background .2s!important}
+.rgb{animation:rgb .3s steps(3)}
+@keyframes rgb{33%{filter:drop-shadow(-1.2cqw 0 #ff2d7e) drop-shadow(1.2cqw 0 #d4ff1a); transform:translateX(1.5cqw) skewX(-6deg)}66%{transform:translateX(-1.5cqw) skewX(6deg)}}
+
 /* ===== final ===== */
 #c6{align-items:center; text-align:center; gap:2cqw}
 .assina{font-size:13cqw; color:var(--acid)}
@@ -185,7 +205,7 @@ body{
   <button id="abrir" type="button">
     <span class="aviso">Mensagem recebida</span>
     <span class="anton grande">Toque para abrir</span>
-    <span class="toque">Dura 25 segundos. Depois some.</span>
+    <span class="toque">Dura 15 segundos. Depois some.</span>
   </button>
 
   <section class="cena" id="c1" aria-hidden="true">
@@ -284,8 +304,7 @@ body{
     <div class="quem">Analie &amp; Thaíssa</div>
     <div class="quando"><b>Amanhã</b> · quinta, 19/11 · 19h30<br>Bar 1953 · Rua Antônio Pierozzi, 230<br>Barão Geraldo</div>
     <div class="btns">
-      <a class="btn" href="../cardapio/index.html">Espiar o cardápio</a>
-      <a class="btn sec" href="https://maps.app.goo.gl/qMxJKeuP9nnAu2JU9" target="_blank" rel="noopener">Abrir no mapa</a>
+      <a class="btn" href="https://maps.app.goo.gl/qMxJKeuP9nnAu2JU9" target="_blank" rel="noopener">Abrir no mapa</a>
       <button class="btn sec" type="button" id="denovo">Ver de novo</button>
     </div>
   </section>
@@ -358,49 +377,72 @@ body{
     $("digita").textContent = ""; $("espiada").textContent = "";
   }
 
+  function transicao(tipo, proxima){
+    if (reduz) { cena(proxima); return; }
+    var tr = document.createElement("div"); tr.className = "tr " + tipo;
+    var n = tipo === "glitch" ? 8 : tipo === "persiana" ? 6 : tipo === "circulo" ? 2 : 0;
+    var cores = ["#d4ff1a", "#ff2d7e", "#0d0d0c", "#f1efe6"];
+    for (var i = 0; i < n; i++){
+      var b = document.createElement("i");
+      if (tipo === "glitch") { b.style.top = (i * 12.5) + "%"; b.style.background = cores[i % 3]; b.style.animationDelay = (i * 12) + "ms"; }
+      if (tipo === "persiana") { b.style.left = (i * 16.66) + "%"; b.style.background = cores[(i + 1) % 2 ? 0 : 2]; b.style.animationDelay = (i % 2 ? 60 : 0) + (i * 10) + "ms"; }
+      tr.appendChild(b);
+    }
+    palco.appendChild(tr); som(tipo === "flash" ? "bum" : "chiado");
+    palco.classList.remove("rgb"); void palco.offsetWidth; palco.classList.add("rgb");
+    em(tipo === "flash" ? 90 : 340, function(){ cena(proxima); });
+    em(800, function(){ tr.remove(); });
+  }
+
   function roda(){
     reset();
+    document.querySelectorAll(".tr").forEach(function(t){ t.remove(); });
+    $("carimbo").classList.remove("engole");
     /* 1 · a mensagem volta */
     cena("c1"); som("chiado"); fala("Mensagem disponível por pouco tempo. Passando só pra te contar sobre amanhã.");
-    em(800, function(){ $("msg").classList.add("risca"); som("pop"); });
-    em(1150, function(){ $("msg").classList.add("cai"); });
-    em(1500, function(){ mostra("#pouco"); });
-    em(1800, function(){ digita($("digita"), "Passando só pra te contar sobre amanhã…", 1300); });
+    em(450, function(){ $("msg").classList.add("risca"); som("pop"); });
+    em(700, function(){ $("msg").classList.add("cai"); });
+    em(900, function(){ mostra("#pouco"); });
+    em(1050, function(){ digita($("digita"), "Passando só pra te contar sobre amanhã…", 850); });
 
     /* 2 · é amanhã */
-    em(3400, function(){ cena("c2"); fala("Amanhã: quinta, 19 de novembro, 19h30, Bar 1953."); mostra(".corre"); });
-    em(4100, function(){ $("relogio").classList.add("para"); mostra("#amanha"); som("bip"); });
+    em(2250, function(){ transicao("glitch", "c2"); fala("Amanhã: quinta, 19 de novembro, 19h30, Bar 1953."); });
+    em(2600, function(){ mostra(".corre"); });
+    em(2850, function(){ $("relogio").classList.add("para"); mostra("#amanha"); som("bip"); });
     var bates = document.querySelectorAll("#c2 .bate");
-    [4600, 5100, 5600].forEach(function(t, i){ em(t, function(){ bates[i].classList.add("in"); som("tum"); }); });
+    [3150, 3400, 3650].forEach(function(t, i){ em(t, function(){ bates[i].classList.add("in"); som("tum"); }); });
 
     /* 3 · a música */
-    em(6600, function(){ cena("c3"); fala("Vai rolar música ao vivo com Marcos Zanetti, pop rock e MPB. O som começa às 18h."); mostra("#recorte"); som("tum"); });
-    em(7300, function(){ mostra("#c3 .vai"); });
-    em(7700, function(){ mostra("#c3 .zanetti"); som("tum"); });
+    em(4300, function(){ transicao("circulo", "c3"); fala("Vai rolar música ao vivo com Marcos Zanetti, pop rock e MPB. O som começa às 18h."); });
+    em(4650, function(){ mostra("#recorte"); som("tum"); });
+    em(4950, function(){ mostra("#c3 .vai"); });
+    em(5150, function(){ mostra("#c3 .zanetti"); som("tum"); });
     var fx = document.querySelectorAll("#c3 .faixa");
-    em(8400, function(){ fx[0].classList.add("in"); som("tum"); });
-    em(8900, function(){ fx[1].classList.add("in"); som("tum"); });
-    em(9500, function(){ mostra("#c3 .dezoito"); });
+    em(5450, function(){ fx[0].classList.add("in"); som("tum"); });
+    em(5700, function(){ fx[1].classList.add("in"); som("tum"); });
+    em(5950, function(){ mostra("#c3 .dezoito"); });
 
     /* 4 · espiadinha no cardápio */
-    em(11600, function(){ cena("c4"); fala("E uma espiadinha no cardápio do bar. Tudo uma delícia."); digita($("espiada"), "E uma espiadinha no cardápio…", 900); });
+    em(7100, function(){ transicao("persiana", "c4"); fala("E uma espiadinha no cardápio do bar. Tudo uma delícia."); });
+    em(7450, function(){ digita($("espiada"), "E uma espiadinha no cardápio…", 550); });
     var cs = document.querySelectorAll("#c4 .prato");
-    cs.forEach(function(c, i){ em(12800 + i * 500, function(){ c.classList.add("in"); som("pop"); }); });
-    em(17200, function(){ mostra("#carimbo"); som("tum"); });
+    cs.forEach(function(c, i){ em(8050 + i * 220, function(){ c.classList.add("in"); som("pop"); }); });
+    em(9750, function(){ mostra("#carimbo"); som("tum"); });
 
     /* 5 · fechamento */
-    em(19200, function(){ cena("c5"); fala("Já separou a roupa da ocasião? A ocasião é amanhã. Não deixa ela passar."); mostra("#c5 .pergunta"); });
+    em(10500, function(){ $("carimbo").classList.add("engole"); som("chiado"); });
+    em(10850, function(){ transicao("flash", "c5"); mostra("#c5 .pergunta"); fala("Já separou a roupa da ocasião? A ocasião é amanhã. Não deixa ela passar."); });
     var looks = document.querySelectorAll(".look");
-    for (var k = 0; k < 8; k++) (function(k){
-      em(19500 + k * 330, function(){ looks.forEach(function(l, j){ l.classList.toggle("on", j === k % looks.length); }); som("pop"); });
+    for (var k = 0; k < 7; k++) (function(k){
+      em(11000 + k * 240, function(){ looks.forEach(function(l, j){ l.classList.toggle("on", j === k % looks.length); }); som("pop"); });
     })(k);
-    em(20600, function(){ mostra("#c5 .chega"); });
-    em(22600, function(){ $("autod").classList.add("on"); $("num").textContent = "3"; som("bip"); fala("Esta mensagem se autodestruirá em 3, 2, 1."); });
-    em(23300, function(){ $("num").textContent = "2"; $("num").classList.remove("bum"); void $("num").offsetWidth; $("num").classList.add("bum"); som("bip"); });
-    em(24000, function(){ $("num").textContent = "1"; $("num").classList.remove("bum"); void $("num").offsetWidth; $("num").classList.add("bum"); som("bip"); });
-    em(24700, explode);
-    em(25600, function(){ cena("c6"); fala("Festa da Ocasião, Analie e Thaíssa. Amanhã, quinta, 19 de novembro, às 19h30, no Bar 1953."); });
-    em(26600, function(){ $("fogo").classList.remove("on"); $("fogo").innerHTML = ""; });
+    em(11700, function(){ mostra("#c5 .chega"); });
+    em(12900, function(){ $("autod").classList.add("on"); $("num").textContent = "3"; som("bip"); fala("Esta mensagem se autodestruirá em 3, 2, 1."); });
+    em(13400, function(){ $("num").textContent = "2"; $("num").classList.remove("bum"); void $("num").offsetWidth; $("num").classList.add("bum"); som("bip"); });
+    em(13900, function(){ $("num").textContent = "1"; $("num").classList.remove("bum"); void $("num").offsetWidth; $("num").classList.add("bum"); som("bip"); });
+    em(14400, explode);
+    em(15100, function(){ cena("c6"); fala("Festa da Ocasião, Analie e Thaíssa. Amanhã, quinta, 19 de novembro, às 19h30, no Bar 1953."); });
+    em(16000, function(){ $("fogo").classList.remove("on"); $("fogo").innerHTML = ""; });
   }
 
   function comeca(){
