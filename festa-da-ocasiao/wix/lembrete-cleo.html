@@ -1,0 +1,518 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0d0d0c">
+<meta name="description" content="Mensagem disponível por pouco tempo. Toque para abrir.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://instant-gqwloqleqice-analiework-140a.wix-site-host.com/festa-da-ocasiao-978c464f1b/lembrete/index.html">
+<meta property="og:title" content="É amanhã! Festa da Ocasião · Analie &amp; Thaíssa">
+<meta property="og:description" content="Mensagem disponível por pouco tempo. Toque para abrir.">
+<meta property="og:image" content="https://static.wixstatic.com/media/8895c9_9358d5a4e7474be3b95e738673d2127e~mv2.jpg">
+<meta property="og:image:secure_url" content="https://static.wixstatic.com/media/8895c9_9358d5a4e7474be3b95e738673d2127e~mv2.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<title>É amanhã · Festa da Ocasião</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Mono:wght@400;700&display=swap">
+<style>
+:root{
+  --bg:#0d0d0c; --fg:#f1efe6; --dim:#9c9a90;
+  --acid:#d4ff1a; --hot:#ff2d7e; --ink:#0d0d0c;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{height:100%}
+body{
+  margin:0; background:#000; color:var(--fg); overflow:hidden;
+  font-family:"Space Mono",ui-monospace,monospace;
+  display:grid; place-items:center;
+}
+.palco{
+  position:relative; overflow:hidden; background:var(--bg);
+  width:min(100vw, calc(100svh * 9 / 16)); height:min(100svh, calc(100vw * 16 / 9));
+  container-type:size;
+}
+.palco::after{
+  content:""; position:absolute; inset:0; pointer-events:none; z-index:40; opacity:.18;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation:grao .4s steps(2) infinite;
+}
+@keyframes grao{50%{transform:translate(-2%,1%)}}
+.anton{font-family:Anton,Impact,sans-serif; font-weight:400; text-transform:uppercase; line-height:.92}
+
+.cena{position:absolute; inset:0; padding:9cqw 7cqw; display:none; flex-direction:column; justify-content:center}
+.cena.on{display:flex}
+.x{opacity:0}
+.on .x.in{opacity:1}
+
+/* ===== início ===== */
+#abrir{
+  position:absolute; inset:0; z-index:30; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:5cqw;
+  background:var(--bg); border:0; color:var(--fg); cursor:pointer; font:inherit; padding:8cqw; text-align:center;
+}
+#abrir .aviso{border:2px solid var(--hot); color:var(--hot); padding:2cqw 4cqw; font-size:4cqw; letter-spacing:.12em; text-transform:uppercase; transform:rotate(-2deg); animation:pisca 1s steps(2) infinite}
+#abrir .grande{font-size:13cqw; color:var(--acid)}
+#abrir .toque{font-size:4cqw; color:var(--dim)}
+@keyframes pisca{50%{opacity:.35}}
+
+/* ===== cena 1 ===== */
+#c1{align-items:flex-start}
+.msg{font-size:12cqw; position:relative; margin:0; animation:glitch 1.6s steps(1) infinite}
+.msg .pre{display:inline-block; color:var(--hot); position:relative}
+.msg .pre::after{content:""; position:absolute; left:-4%; right:-4%; top:48%; height:1.6cqw; background:var(--acid); transform:scaleX(0) rotate(-6deg); transform-origin:left}
+.on .msg.risca .pre::after{transform:scaleX(1) rotate(-6deg); transition:transform .25s ease-out}
+.on .msg.cai .pre{transform:translateY(160cqh) rotate(70deg); transition:transform .9s cubic-bezier(.5,0,.9,.5)}
+.msg .resto{display:block}
+.msg .linha{white-space:nowrap}
+.pouco{font-size:5cqw; color:var(--acid); margin-top:3cqw}
+.digita{font-size:6.4cqw; line-height:1.35; margin-top:12cqw; min-height:3em; font-weight:700}
+.digita::after{content:"▌"; color:var(--acid); animation:pisca .7s steps(2) infinite}
+@keyframes glitch{0%,92%{text-shadow:none; transform:none}93%{text-shadow:-.8cqw 0 var(--hot), .8cqw 0 var(--acid); transform:translateX(1cqw)}96%{text-shadow:.6cqw 0 var(--hot); transform:translateX(-1cqw)}}
+
+/* ===== cena 2 ===== */
+#c2{align-items:center; text-align:center}
+.relogio{width:46cqw; height:46cqw; border:1.4cqw solid var(--fg); border-radius:50%; position:relative; transform:rotate(-3deg)}
+.relogio .p{position:absolute; left:50%; bottom:50%; width:1.4cqw; background:var(--acid); transform-origin:50% 100%; border-radius:1cqw}
+.relogio .h1{height:14cqw; margin-left:-.7cqw; animation:gira .35s linear infinite}
+.relogio .h2{height:19cqw; margin-left:-.7cqw; background:var(--hot); animation:gira .9s linear infinite}
+.relogio.para .h1,.relogio.para .h2{animation:none}
+.relogio.para .h1{transform:rotate(-60deg)}
+.relogio.para .h2{transform:rotate(0)}
+@keyframes gira{to{transform:rotate(360deg)}}
+.amanha{font-size:17cqw; color:var(--acid); margin-top:5cqw; transform:skewX(-8deg)}
+.bate{font-size:11cqw; margin-top:2.5cqw}
+.on .bate.in{animation:bate .35s cubic-bezier(.2,1.6,.4,1)}
+@keyframes bate{from{transform:scale(2.4) rotate(-6deg); opacity:0}to{transform:none; opacity:1}}
+.corre{position:absolute; bottom:6cqh; left:-30cqw; width:26cqw}
+.on .corre.in{animation:corre 2.6s linear forwards}
+@keyframes corre{to{left:110cqw}}
+.corre .pernas{animation:passo .25s steps(2) infinite}
+@keyframes passo{50%{transform:scaleX(-1)}}
+
+/* ===== cena 3 ===== */
+#c3{justify-content:flex-start; padding-top:12cqw}
+.cantor{width:72cqw; align-self:center; overflow:visible; transform:translateY(-120cqh)}
+.on .cantor.in{transform:none; transition:transform .55s cubic-bezier(.3,1.4,.5,1)}
+.cantor .braco{transform-origin:100px 76px; animation:toca .3s ease-in-out infinite alternate}
+@keyframes toca{to{transform:rotate(-9deg)}}
+.cantor .cabeca{transform-origin:100px 40px; animation:balanca 1.2s ease-in-out infinite}
+@keyframes balanca{50%{transform:rotate(6deg)}}
+.palco3{position:relative; align-self:center}
+.notas span{position:absolute; font-size:10cqw; color:var(--acid); animation:pula 1s ease-in-out infinite}
+.notas span:nth-child(2){color:var(--hot); animation-delay:.3s}
+.notas span:nth-child(3){animation-delay:.6s}
+@keyframes pula{0%,100%{transform:translateY(0) rotate(-10deg)}50%{transform:translateY(-3cqw) rotate(10deg)}}
+.vai{font-size:5.6cqw; margin-top:8cqw; font-weight:700}
+.zanetti{font-size:13cqw; margin-top:1cqw}
+.faixas{display:flex; gap:2cqw; flex-wrap:wrap; margin-top:3cqw}
+.faixa{background:var(--acid); color:var(--ink); font-size:9cqw; padding:1cqw 3cqw; transform:skewX(-10deg) rotate(-2deg)}
+.faixa.r{background:var(--hot); color:var(--fg); transform:skewX(-10deg) rotate(2deg)}
+.on .faixa.in{animation:entra .3s cubic-bezier(.2,1.5,.4,1)}
+@keyframes entra{from{transform:translateX(-80cqw) skewX(-10deg)}}
+.dezoito{font-size:4.4cqw; color:var(--dim); margin-top:4cqw}
+
+/* ===== cena 4 ===== */
+#c4{justify-content:flex-start}
+.espiada{font-size:6.6cqw; font-weight:700; margin:4cqw 0 0; min-height:2.8em}
+.pratos{display:flex; flex-wrap:wrap; justify-content:center; gap:5cqw 0; margin-top:6cqw}
+.prato{flex:0 0 33.33%}
+.prato{display:flex; flex-direction:column; align-items:center; gap:1.5cqw; opacity:0; transform:scale(.2) rotate(-20deg)}
+.prato svg{width:22cqw; height:22cqw; overflow:visible}
+.prato b{font-size:3.2cqw; letter-spacing:.06em; color:var(--acid); text-align:center; line-height:1.2}
+.prato.in{opacity:1; transform:none; transition:transform .4s cubic-bezier(.3,1.7,.5,1), opacity .1s}
+.prato:nth-child(even).in{transform:rotate(4deg)}
+.carimbo{
+  position:absolute; left:8cqw; right:8cqw; bottom:8cqh; z-index:5; text-align:center;
+  border:1.2cqw solid var(--hot); color:var(--hot); background:rgba(13,13,12,.85);
+  font-size:9cqw; padding:2cqw; transform:rotate(-8deg) scale(3); opacity:0;
+}
+.carimbo small{display:block; font-size:4.2cqw; font-family:"Space Mono",monospace; font-weight:700; letter-spacing:.04em; margin-top:1cqw}
+.carimbo.in{opacity:1; transform:rotate(-8deg) scale(1); transition:transform .25s cubic-bezier(.5,0,.6,1.4), opacity .1s}
+
+/* ===== cena 5 ===== */
+#c5{align-items:center; text-align:center; justify-content:flex-start; padding-top:14cqw}
+.pergunta{font-size:10.5cqw}
+.boneca{width:46cqw; margin:5cqw 0 2cqw; overflow:visible}
+.look{opacity:0}
+.look.on{opacity:1}
+.chega{font-size:6cqw; font-weight:700; line-height:1.35; margin-top:2cqw}
+.chega em{font-style:normal; color:var(--acid)}
+.autod{position:absolute; inset:0; display:none; flex-direction:column; align-items:center; justify-content:center; text-align:center; background:var(--bg); padding:8cqw; z-index:6}
+.autod.on{display:flex}
+.autod .t{font-size:5.6cqw; font-weight:700; color:var(--hot); text-transform:uppercase; letter-spacing:.06em}
+.autod .n{font-size:58cqw; color:var(--acid); line-height:1}
+.autod .n.bum{animation:bate .4s cubic-bezier(.2,1.6,.4,1)}
+
+/* explosão */
+.fogo{position:absolute; inset:0; z-index:20; pointer-events:none; display:none}
+.fogo.on{display:block}
+.clarao{position:absolute; inset:0; background:radial-gradient(circle at 50% 55%, #fff 0, #ffd23a 18%, #ff6a00 38%, #b3001b 60%, transparent 75%); opacity:0}
+.fogo.on .clarao{animation:clarao 1.3s ease-out forwards}
+@keyframes clarao{0%{opacity:0; transform:scale(.2)}12%{opacity:1; transform:scale(1.1)}100%{opacity:0; transform:scale(1.8)}}
+.chama{position:absolute; left:50%; top:55%; width:var(--s); height:var(--s); margin:calc(var(--s) / -2) 0 0 calc(var(--s) / -2); border-radius:50%;
+  background:radial-gradient(circle, #fff6c2 0, #ffb300 30%, #ff3d00 60%, rgba(160,0,20,0) 72%); filter:blur(1.4cqw); mix-blend-mode:screen;
+  animation:chama var(--t) cubic-bezier(.1,.7,.3,1) forwards}
+@keyframes chama{0%{transform:translate(0,0) scale(.3); opacity:1}100%{transform:translate(var(--dx),var(--dy)) scale(1.6); opacity:0}}
+.tremeforte{animation:tremeforte .5s linear}
+@keyframes tremeforte{10%,50%,90%{transform:translate(-2cqw,1cqw) rotate(-1deg)}30%,70%{transform:translate(2cqw,-1cqw) rotate(1deg)}}
+
+/* ===== transições ===== */
+.tr{position:absolute; inset:0; z-index:25; pointer-events:none; overflow:hidden}
+.tr i{position:absolute; display:block}
+.tr.glitch i{left:0; right:0; height:12.6%; animation:fatia .62s cubic-bezier(.7,0,.3,1) both}
+.tr.glitch i:nth-child(odd){animation-name:fatiaR}
+@keyframes fatia{0%{transform:translateX(-101%)}40%,60%{transform:none}100%{transform:translateX(101%)}}
+@keyframes fatiaR{0%{transform:translateX(101%)}40%,60%{transform:none}100%{transform:translateX(-101%)}}
+.tr.circulo i{inset:0; background:var(--hot); animation:circulo .7s cubic-bezier(.7,0,.3,1) both}
+@keyframes circulo{0%{clip-path:circle(0% at 50% 30%)}45%,55%{clip-path:circle(120% at 50% 30%)}100%{clip-path:circle(0% at 50% 30%)}}
+.tr.circulo i + i{background:var(--bg); animation-name:circulo2}
+@keyframes circulo2{0%,40%{clip-path:circle(0% at 50% 30%)}50%{clip-path:circle(130% at 50% 30%)}60%,100%{clip-path:circle(0% at 50% 30%); opacity:0}}
+.tr.persiana i{top:0; bottom:0; width:16.8%; animation:persiana .62s cubic-bezier(.7,0,.3,1) both}
+@keyframes persiana{0%{transform:translateY(-101%)}40%,60%{transform:none}100%{transform:translateY(101%)}}
+.tr.flash{background:#fff; animation:flash .45s ease-out both}
+@keyframes flash{0%{opacity:0}25%{opacity:1}100%{opacity:0}}
+.carimbo.engole{transform:rotate(-8deg) scale(14)!important; background:var(--hot); transition:transform .38s cubic-bezier(.6,0,.9,.4), background .2s!important}
+.rgb{animation:rgb .3s steps(3)}
+@keyframes rgb{33%{filter:drop-shadow(-1.2cqw 0 #ff2d7e) drop-shadow(1.2cqw 0 #d4ff1a); transform:translateX(1.5cqw) skewX(-6deg)}66%{transform:translateX(-1.5cqw) skewX(6deg)}}
+
+/* ===== final ===== */
+#c6{align-items:center; text-align:center; gap:2cqw}
+.assina{font-size:13cqw; color:var(--acid)}
+.assina span{display:block; color:var(--fg); -webkit-text-stroke:0}
+.quem{font-size:5.4cqw; font-weight:700; margin-top:2cqw}
+.quando{font-size:4.6cqw; line-height:1.5; margin-top:3cqw}
+.quando b{color:var(--hot)}
+.btns{display:flex; flex-direction:column; gap:3cqw; width:100%; margin-top:6cqw}
+.btn{
+  display:flex; align-items:center; justify-content:center; min-height:44px; padding:3cqw; text-decoration:none;
+  font-weight:700; text-transform:uppercase; letter-spacing:.04em; font-size:4.2cqw; color:var(--ink);
+  background:var(--acid); border:2px solid var(--acid); font-family:inherit; cursor:pointer;
+}
+.btn.sec{background:transparent; color:var(--fg); border-color:var(--fg)}
+.btn:hover{background:var(--hot); border-color:var(--hot); color:var(--fg)}
+:focus-visible{outline:3px solid var(--acid); outline-offset:3px}
+.sr{position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap}
+</style>
+</head>
+<body>
+<div class="palco" id="palco">
+  <button id="abrir" type="button">
+    <span class="aviso">Mensagem recebida</span>
+    <span class="anton grande">Toque para abrir</span>
+    <span class="toque">Dura 15 segundos. Depois some.<br>Aumenta o som 🔊</span>
+  </button>
+
+  <section class="cena" id="c1" aria-hidden="true">
+    <p class="anton msg" id="msg"><span class="resto">Mensagem</span><span class="linha"><span class="pre">In</span>disponível</span></p>
+    <div class="pouco x" id="pouco">(por pouco tempo)</div>
+    <div class="digita" id="digita"></div>
+  </section>
+
+  <section class="cena" id="c2" aria-hidden="true">
+    <div class="relogio" id="relogio"><span class="p h1"></span><span class="p h2"></span></div>
+    <div class="anton amanha x" id="amanha">Amanhã</div>
+    <div class="anton bate x">Quinta · 19/11</div>
+    <div class="anton bate x" style="color:var(--hot)">19h30</div>
+    <div class="anton bate x">Bar 1953</div>
+    <svg class="corre x" viewBox="0 0 100 130" aria-hidden="true">
+      <g fill="none" stroke="#f1efe6" stroke-width="4" stroke-linecap="round">
+        <circle cx="46" cy="20" r="13" fill="#0d0d0c"/>
+        <path d="M34 14 q-4 -14 12 -14 q14 -2 16 14" stroke="#ff2d7e"/>
+        <path d="M46 33 L50 78 M48 48 L76 40 M48 48 L22 62"/>
+        <path d="M76 40 l8 -10 m-8 10 l14 2 m-14 -2 l-6 -12" stroke="#d4ff1a"/>
+        <g class="pernas" style="transform-origin:50px 78px"><path d="M50 78 L30 122 M50 78 L74 116"/></g>
+      </g>
+    </svg>
+  </section>
+
+  <section class="cena" id="c3" aria-hidden="true">
+    <div class="palco3">
+      <svg class="cantor x" id="recorte" viewBox="0 0 200 220" aria-hidden="true">
+        <g fill="none" stroke="#f1efe6" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M66 150 H134 M76 150 L68 214 M124 150 L132 214 M72 186 H128"/>
+          <path d="M100 58 L100 146 M100 146 L128 150 L130 208 M100 146 L78 152 L74 208"/>
+          <path d="M100 78 L134 94 L162 70"/>
+          <g class="cabeca">
+            <circle cx="100" cy="38" r="19" fill="#0d0d0c"/>
+            <path d="M82 32 q4 -18 20 -16 q14 2 16 14" stroke-width="5"/>
+            <circle cx="93" cy="40" r="5" stroke-width="2.5"/><circle cx="108" cy="40" r="5" stroke-width="2.5"/><path d="M98 40 h5" stroke-width="2.5"/>
+            <path d="M92 50 q8 6 16 0" stroke-width="2.5"/>
+          </g>
+        </g>
+        <g transform="rotate(-32 100 118)">
+          <rect x="112" y="112" width="70" height="9" rx="2" fill="#f1efe6"/>
+          <rect x="178" y="108" width="14" height="17" rx="3" fill="#ff2d7e"/>
+          <path d="M60 116 c0 -22 24 -24 32 -14 c8 -10 30 -8 30 14 c0 22 -22 24 -30 14 c-8 10 -32 8 -32 -14z" fill="#d4ff1a" stroke="#0d0d0c" stroke-width="3"/>
+          <circle cx="98" cy="116" r="7" fill="#0d0d0c"/>
+          <path d="M70 116 h4" stroke="#0d0d0c" stroke-width="4"/>
+        </g>
+        <path class="braco" d="M100 78 L76 108 L96 126" fill="none" stroke="#f1efe6" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <div class="notas"><span style="left:-6cqw; top:4cqw">♪</span><span style="right:-4cqw; top:-2cqw">♫</span><span style="right:2cqw; top:24cqw">♪</span></div>
+    </div>
+    <div class="vai x">Vai rolar música ao vivo com</div>
+    <div class="anton zanetti x">Marcos Zanetti</div>
+    <div class="faixas">
+      <span class="anton faixa x">Pop/Rock</span>
+      <span class="anton faixa r x">&amp; MPB</span>
+    </div>
+    <div class="dezoito x">O som começa às 18h. Pode chegar no aquecimento.</div>
+  </section>
+
+  <section class="cena" id="c4" aria-hidden="true">
+    <div class="espiada" id="espiada"></div>
+    <div class="pratos">
+      <div class="prato"><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M50 14 C40 30 22 50 22 68 C22 84 36 90 50 90 C64 90 78 84 78 68 C78 50 60 30 50 14Z" fill="#e8a33d" troke="#f1efe6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M36 64 q6 4 10 0 M54 72 q6 4 10 0" stroke="#0d0d0c" stroke-width="2.5" fill="none"/></svg><b>COXINHA</b></div>
+      <div class="prato"><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M16 66 C24 30 70 22 86 44" fill="none" stroke="#9e1b3a" stroke-width="18" stroke-linecap="round"/><circle cx="34" cy="76" r="11" fill="#9e1b3a" troke="#f1efe6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="58" cy="80" r="11" fill="#9e1b3a" troke="#f1efe6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M30 74 h2 M38 80 h2 M55 78 h2 M62 83 h2" stroke="#f1efe6" stroke-width="2.5"/><path d="M72 70 l14 -6 l-2 14z" fill="#d4ff1a" stroke="#0d0d0c" stroke-width="2"/></svg><b>CHOURIÇO</b></div>
+      <div class="prato"><svg viewBox="0 0 100 100" aria-hidden="true"><ellipse cx="50" cy="72" rx="42" ry="14" fill="#2a2a27" stroke="#f1efe6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><rect x="12" y="44" width="34" height="18" rx="9" fill="#e8a33d" transform="rotate(-18 29 53)" stroke="#f1efe6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><rect x="30" y="56" width="34" height="18" rx="9" fill="#e8a33d" transform="rotate(10 47 65)" stroke="#f1efe6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><rect x="20" y="24" width="32" height="17" rx="8.5" fill="#e8a33d" transform="rotate(25 36 32)" stroke="#f1efe6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M58 40 h30 l-4 18 h-22z" fill="#f1efe6" stroke="#0d0d0c" stroke-width="2"/><ellipse cx="73" cy="40" rx="15" ry="5" fill="#fff6c2" stroke="#0d0d0c" stroke-width="2"/><path d="M22 50 h2 M40 64 h2 M32 30 h2" stroke="#0d0d0c" stroke-width="3"/></svg><b>ISCA C/ CATUPIRY</b></div>
+      <div class="prato"><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M14 46 C14 18 86 18 86 46Z" fill="#e8a33d" troke="#f1efe6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 54 l8 -6 l8 6 l8 -6 l8 6 l8 -6 l8 6 l8 -6 l8 6 l8 -6" stroke="#7bd94b" stroke-width="4" fill="none" stroke-linecap="round"/><rect x="14" y="58" width="72" height="10" rx="4" fill="#7a3b1e" troke="#f1efe6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 72 h72 v6 c0 6 -6 10 -12 10 h-48 c-6 0 -12 -4 -12 -10z" fill="#e8a33d" troke="#f1efe6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M34 30 h2 M50 26 h2 M64 32 h2" stroke="#0d0d0c" stroke-width="3"/></svg><b>LANCHE</b></div>
+      <div class="prato"><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M44 8 h12 v18 c10 6 12 14 12 24 v40 h-36 v-40 c0 -10 2 -18 12 -24z" fill="#5a3410" troke="#f1efe6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><rect x="34" y="50" width="32" height="22" fill="#d4ff1a" stroke="#0d0d0c" stroke-width="2"/><rect x="43" y="4" width="14" height="6" fill="#ff2d7e"/></svg><b>CERVEJA</b></div>
+      <div class="prato"><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M24 26 h52 l-6 64 h-40z" fill="rgba(212,255,26,.25)" troke="#f1efe6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M38 70 l10 -14 l8 14z M52 52 l12 -6 l-2 14z" fill="#7bd94b" stroke="#0d0d0c" stroke-width="2"/><path d="M60 8 l-12 70" stroke="#ff2d7e" stroke-width="3"/><path d="M30 40 h4 M44 36 h4 M62 42 h4" stroke="#f1efe6" stroke-width="3"/></svg><b>CAIPIRINHA</b></div>
+      <div class="prato"><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M20 18 h60 c0 26 -14 38 -30 38 c-16 0 -30 -12 -30 -38z" fill="#ff6a00" troke="#f1efe6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M50 56 v28 M34 88 h32" fill="none" stroke="#f1efe6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="72" cy="20" r="11" fill="#ffb300" stroke="#0d0d0c" stroke-width="2"/><path d="M72 12 v16 M64 20 h16" stroke="#0d0d0c" stroke-width="1.5"/></svg><b>DRINKS</b></div>
+    </div>
+    <div class="anton carimbo" id="carimbo">Tudo uma delícia<small>· aprovado pelas aniversariantes ·</small></div>
+  </section>
+
+  <section class="cena" id="c5" aria-hidden="true">
+    <div class="anton pergunta x">Já separou a roupa da ocasião?</div>
+    <svg class="boneca" viewBox="0 0 120 200" aria-hidden="true">
+      <g fill="none" stroke="#f1efe6" stroke-width="3.5" stroke-linecap="round">
+        <circle cx="60" cy="30" r="17" fill="#0d0d0c"/>
+        <path d="M43 24 q-6 -22 17 -22 q22 0 19 22" stroke="#ff2d7e" stroke-width="5"/>
+        <path d="M60 47 L60 120 M60 70 L32 100 M60 70 L88 100 M60 120 L44 190 M60 120 L76 190"/>
+      </g>
+      <g class="look"><path d="M60 58 L28 150 L92 150 Z" fill="#ff2d7e" stroke="#0d0d0c" stroke-width="2"/><path d="M50 150 l-6 -40 m26 40 l6 -40" stroke="#0d0d0c" stroke-width="2"/></g>
+      <g class="look"><path d="M42 58 L78 58 L84 150 L36 150 Z" fill="#d4ff1a" stroke="#0d0d0c" stroke-width="2"/><path d="M42 58 L60 96 L78 58" fill="none" stroke="#0d0d0c" stroke-width="3"/><rect x="38" y="100" width="44" height="9" fill="#ff2d7e"/></g>
+      <g class="look"><rect x="40" y="56" width="40" height="70" fill="#7a8cff"/><path d="M40 70 h40 M40 84 h40 M40 98 h40 M40 112 h40" stroke="#f1efe6" stroke-width="3"/><rect x="42" y="126" width="16" height="50" fill="#7a8cff"/><rect x="62" y="126" width="16" height="50" fill="#7a8cff"/></g>
+      <g class="look"><path d="M26 14 Q60 -14 94 14 Z" fill="#d4ff1a" stroke="#0d0d0c" stroke-width="2"/><ellipse cx="60" cy="14" rx="44" ry="7" fill="#d4ff1a" stroke="#0d0d0c" stroke-width="2"/><path d="M48 56 L72 56 L76 124 L44 124 Z" fill="#0d0d0c" stroke="#f1efe6" stroke-width="2"/></g>
+    </svg>
+    <div class="chega x">A ocasião é <em>amanhã</em>.<br>Não deixa ela passar.</div>
+    <div class="autod" id="autod">
+      <div class="t">Esta mensagem se autodestruirá em</div>
+      <div class="anton n" id="num">3</div>
+    </div>
+  </section>
+
+  <section class="cena" id="c6">
+    <div class="anton assina">Festa da<span>Ocasião</span></div>
+    <div class="quem">Analie &amp; Thaíssa</div>
+    <div class="quando"><b>Amanhã</b> · quinta, 19/11 · 19h30<br>Bar 1953 · Rua Antônio Pierozzi, 230<br>Barão Geraldo</div>
+    <div class="btns">
+      <a class="btn" href="https://maps.app.goo.gl/qMxJKeuP9nnAu2JU9" target="_blank" rel="noopener">Abrir no mapa</a>
+      <button class="btn sec" type="button" id="denovo">Ver de novo</button>
+    </div>
+  </section>
+
+  <div class="fogo" id="fogo"><div class="clarao"></div></div>
+  <p class="sr" aria-live="polite" id="leitor"></p>
+</div>
+
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  var palco = $("palco"), timers = [], audio = null;
+  var reduz = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function em(ms, fn){ timers.push(setTimeout(fn, ms)); }
+  function cena(id){
+    document.querySelectorAll(".cena").forEach(function(c){ c.classList.toggle("on", c.id === id); });
+  }
+  function mostra(sel, raiz){ (raiz || document).querySelectorAll(sel).forEach(function(e){ e.classList.add("in"); }); }
+  function digita(el, txt, ms){
+    el.textContent = "";
+    var i = 0, passo = Math.max(18, ms / txt.length);
+    (function vai(){ el.textContent = txt.slice(0, ++i); if (i < txt.length) em(passo, vai); })();
+  }
+  function fala(t){ $("leitor").textContent = t; }
+
+  /* sons curtinhos (só depois do toque) */
+  function som(tipo){
+    if (!audio) return;
+    try {
+      var t = audio.currentTime, g = audio.createGain(); g.connect(audio.destination);
+      if (tipo === "chiado" || tipo === "bum"){
+        var dur = tipo === "bum" ? 1.4 : .5, buf = audio.createBuffer(1, audio.sampleRate * dur, audio.sampleRate), d = buf.getChannelData(0);
+        for (var i = 0; i < d.length; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / d.length, tipo === "bum" ? 2 : .5);
+        var s = audio.createBufferSource(); s.buffer = buf;
+        var f = audio.createBiquadFilter(); f.type = "lowpass"; f.frequency.value = tipo === "bum" ? 500 : 4000;
+        s.connect(f); f.connect(g); g.gain.value = tipo === "bum" ? .9 : .07; s.start(t);
+      } else {
+        var o = audio.createOscillator(); o.connect(g);
+        o.type = tipo === "bip" ? "square" : "triangle";
+        o.frequency.value = tipo === "bip" ? 880 : tipo === "pop" ? 520 + Math.random() * 300 : 160;
+        g.gain.setValueAtTime(.12, t); g.gain.exponentialRampToValueAtTime(.001, t + (tipo === "bip" ? .18 : .12));
+        o.start(t); o.stop(t + .2);
+      }
+    } catch (e) {}
+  }
+
+  /* trilha: batida eletrônica original, gerada no próprio navegador */
+  var trilha = { timer: null, prox: 0, passo: 0, modo: "groove", saida: null };
+  var ACORDES = [[220, 261.63, 329.63], [174.61, 220, 261.63], [261.63, 329.63, 392], [196, 246.94, 293.66]];
+  var BAIXO = [55, 43.65, 65.41, 49];
+  function env(g, t, a, v, d){ g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(v, t + a); g.gain.exponentialRampToValueAtTime(0.0001, t + d); }
+  function ruido(dur){ var b = audio.createBuffer(1, audio.sampleRate * dur, audio.sampleRate), d = b.getChannelData(0); for (var i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1; var s = audio.createBufferSource(); s.buffer = b; return s; }
+  function nota(tipo, freq, t, dur, vol, filtro){
+    var o = audio.createOscillator(), g = audio.createGain(); o.type = tipo; o.frequency.setValueAtTime(freq, t);
+    var saida = g;
+    if (filtro){ var fl = audio.createBiquadFilter(); fl.type = "lowpass"; fl.frequency.setValueAtTime(filtro, t); fl.Q.value = 6; o.connect(fl); fl.connect(g); } else o.connect(g);
+    g.connect(trilha.saida); env(g, t, .005, vol, dur); o.start(t); o.stop(t + dur + .05);
+    return o;
+  }
+  function bumbo(t, vol){
+    var o = audio.createOscillator(), g = audio.createGain(); o.frequency.setValueAtTime(150, t); o.frequency.exponentialRampToValueAtTime(42, t + .12);
+    o.connect(g); g.connect(trilha.saida); env(g, t, .002, vol || .9, .32); o.start(t); o.stop(t + .35);
+  }
+  function chiar(t, dur, freq, vol, tipo){
+    var s = ruido(dur), fl = audio.createBiquadFilter(), g = audio.createGain(); fl.type = tipo || "highpass"; fl.frequency.value = freq;
+    s.connect(fl); fl.connect(g); g.connect(trilha.saida); env(g, t, .002, vol, dur); s.start(t);
+  }
+  function tocaPasso(n, t){
+    var i = n % 16, compasso = Math.floor(n / 16) % 4, m = trilha.modo;
+    if (m === "tenso"){ if (i % 4 === 0) nota("square", 880, t, .08, .08); if (i % 2 === 1) chiar(t, .03, 9000, .05); return; }
+    if (m === "silencio") return;
+    var leve = m === "fim" ? .55 : 1;
+    if (i % 4 === 0) bumbo(t, .85 * leve);
+    if (i === 4 || i === 12) chiar(t, .16, 1500, .35 * leve, "bandpass");
+    if (i % 2 === 1) chiar(t, i % 4 === 3 ? .12 : .035, 8000, .12 * leve);
+    if ([0, 3, 6, 8, 10, 14].indexOf(i) >= 0) nota("sawtooth", BAIXO[compasso] * (i === 10 ? 2 : 1), t, .16, .32 * leve, 420 + (i * 40));
+    if (i === 2 || i === 7 || i === 10){ ACORDES[compasso].forEach(function(fq){ nota("square", fq, t, .11, .05 * leve, 2600); nota("sawtooth", fq * 1.006, t, .11, .035 * leve, 2600); }); }
+    if (i === 14 && compasso === 3) nota("triangle", 1318.5, t, .2, .06 * leve);
+  }
+  function agenda(){
+    var dur = 60 / 128 / 4;
+    while (trilha.prox < audio.currentTime + .12){ tocaPasso(trilha.passo, trilha.prox); trilha.prox += dur; trilha.passo++; }
+  }
+  function musica(){
+    if (!audio) return;
+    paraMusica();
+    trilha.saida = audio.createGain(); trilha.saida.gain.value = .5; trilha.saida.connect(audio.destination);
+    trilha.modo = "groove"; trilha.passo = 0; trilha.prox = audio.currentTime + .05;
+    trilha.timer = setInterval(agenda, 25);
+  }
+  function paraMusica(){
+    if (trilha.timer) clearInterval(trilha.timer); trilha.timer = null;
+    if (trilha.saida){ try { trilha.saida.gain.setTargetAtTime(0, audio.currentTime, .05); } catch (e) {} }
+  }
+  function apaga(){
+    if (!audio || !trilha.saida) return;
+    var t = audio.currentTime; trilha.saida.gain.setValueAtTime(trilha.saida.gain.value, t); trilha.saida.gain.linearRampToValueAtTime(0, t + 2.5);
+    em(2700, paraMusica);
+  }
+
+  function explode(){
+    var fogo = $("fogo"); fogo.innerHTML = '<div class="clarao"></div>'; fogo.classList.add("on");
+    palco.classList.remove("tremeforte"); void palco.offsetWidth; palco.classList.add("tremeforte");
+    if (!reduz) for (var i = 0; i < 46; i++){
+      var c = document.createElement("span"), a = Math.random() * Math.PI * 2, r = 25 + Math.random() * 60;
+      c.className = "chama";
+      c.style.setProperty("--s", (14 + Math.random() * 30) + "cqw");
+      c.style.setProperty("--t", (.7 + Math.random() * .9) + "s");
+      c.style.setProperty("--dx", Math.cos(a) * r + "cqw");
+      c.style.setProperty("--dy", (Math.sin(a) * r - 10) + "cqh");
+      fogo.appendChild(c);
+    }
+    som("bum");
+  }
+
+  function reset(){
+    timers.forEach(clearTimeout); timers = [];
+    paraMusica();
+    document.querySelectorAll(".in").forEach(function(e){ e.classList.remove("in"); });
+    ["msg"].forEach(function(id){ $(id).classList.remove("risca", "cai"); });
+    $("relogio").classList.remove("para");
+    $("autod").classList.remove("on"); $("fogo").classList.remove("on"); $("fogo").innerHTML = "";
+    document.querySelectorAll(".look").forEach(function(l){ l.classList.remove("on"); });
+    $("digita").textContent = ""; $("espiada").textContent = "";
+  }
+
+  function transicao(tipo, proxima){
+    if (reduz) { cena(proxima); return; }
+    var tr = document.createElement("div"); tr.className = "tr " + tipo;
+    var n = tipo === "glitch" ? 8 : tipo === "persiana" ? 6 : tipo === "circulo" ? 2 : 0;
+    var cores = ["#d4ff1a", "#ff2d7e", "#0d0d0c", "#f1efe6"];
+    for (var i = 0; i < n; i++){
+      var b = document.createElement("i");
+      if (tipo === "glitch") { b.style.top = (i * 12.5) + "%"; b.style.background = cores[i % 3]; b.style.animationDelay = (i * 12) + "ms"; }
+      if (tipo === "persiana") { b.style.left = (i * 16.66) + "%"; b.style.background = cores[(i + 1) % 2 ? 0 : 2]; b.style.animationDelay = (i % 2 ? 60 : 0) + (i * 10) + "ms"; }
+      tr.appendChild(b);
+    }
+    palco.appendChild(tr); som(tipo === "flash" ? "bum" : "chiado");
+    palco.classList.remove("rgb"); void palco.offsetWidth; palco.classList.add("rgb");
+    em(tipo === "flash" ? 90 : 340, function(){ cena(proxima); });
+    em(800, function(){ tr.remove(); });
+  }
+
+  function roda(){
+    reset();
+    document.querySelectorAll(".tr").forEach(function(t){ t.remove(); });
+    $("carimbo").classList.remove("engole");
+    musica();
+    /* 1 · a mensagem volta */
+    cena("c1"); som("chiado"); fala("Mensagem disponível por pouco tempo. Passando só pra te contar sobre amanhã.");
+    em(450, function(){ $("msg").classList.add("risca"); som("pop"); });
+    em(700, function(){ $("msg").classList.add("cai"); });
+    em(900, function(){ mostra("#pouco"); });
+    em(1050, function(){ digita($("digita"), "Passando só pra te contar sobre amanhã…", 850); });
+
+    /* 2 · é amanhã */
+    em(2250, function(){ transicao("glitch", "c2"); fala("Amanhã: quinta, 19 de novembro, 19h30, Bar 1953."); });
+    em(2600, function(){ mostra(".corre"); });
+    em(2850, function(){ $("relogio").classList.add("para"); mostra("#amanha"); som("bip"); });
+    var bates = document.querySelectorAll("#c2 .bate");
+    [3150, 3400, 3650].forEach(function(t, i){ em(t, function(){ bates[i].classList.add("in"); som("tum"); }); });
+
+    /* 3 · a música */
+    em(4300, function(){ transicao("circulo", "c3"); fala("Vai rolar música ao vivo com Marcos Zanetti, pop rock e MPB. O som começa às 18h."); });
+    em(4650, function(){ mostra("#recorte"); som("tum"); });
+    em(4950, function(){ mostra("#c3 .vai"); });
+    em(5150, function(){ mostra("#c3 .zanetti"); som("tum"); });
+    var fx = document.querySelectorAll("#c3 .faixa");
+    em(5450, function(){ fx[0].classList.add("in"); som("tum"); });
+    em(5700, function(){ fx[1].classList.add("in"); som("tum"); });
+    em(5950, function(){ mostra("#c3 .dezoito"); });
+
+    /* 4 · espiadinha no cardápio */
+    em(7100, function(){ transicao("persiana", "c4"); fala("E uma espiadinha no cardápio do bar. Tudo uma delícia."); });
+    em(7450, function(){ digita($("espiada"), "E uma espiadinha no cardápio…", 550); });
+    var cs = document.querySelectorAll("#c4 .prato");
+    cs.forEach(function(c, i){ em(8050 + i * 220, function(){ c.classList.add("in"); som("pop"); }); });
+    em(9750, function(){ mostra("#carimbo"); som("tum"); });
+
+    /* 5 · fechamento */
+    em(10500, function(){ $("carimbo").classList.add("engole"); som("chiado"); });
+    em(10850, function(){ transicao("flash", "c5"); mostra("#c5 .pergunta"); fala("Já separou a roupa da ocasião? A ocasião é amanhã. Não deixa ela passar."); });
+    var looks = document.querySelectorAll(".look");
+    for (var k = 0; k < 7; k++) (function(k){
+      em(11000 + k * 240, function(){ looks.forEach(function(l, j){ l.classList.toggle("on", j === k % looks.length); }); som("pop"); });
+    })(k);
+    em(11700, function(){ mostra("#c5 .chega"); });
+    em(12900, function(){ trilha.modo = "tenso"; $("autod").classList.add("on"); $("num").textContent = "3"; som("bip"); fala("Esta mensagem se autodestruirá em 3, 2, 1."); });
+    em(13400, function(){ $("num").textContent = "2"; $("num").classList.remove("bum"); void $("num").offsetWidth; $("num").classList.add("bum"); som("bip"); });
+    em(13900, function(){ $("num").textContent = "1"; $("num").classList.remove("bum"); void $("num").offsetWidth; $("num").classList.add("bum"); som("bip"); });
+    em(14400, function(){ trilha.modo = "silencio"; explode(); });
+    em(15100, function(){ trilha.modo = "fim"; });
+    em(19500, apaga);
+    em(15100, function(){ cena("c6"); fala("Festa da Ocasião, Analie e Thaíssa. Amanhã, quinta, 19 de novembro, às 19h30, no Bar 1953."); });
+    em(16000, function(){ $("fogo").classList.remove("on"); $("fogo").innerHTML = ""; });
+  }
+
+  function comeca(){
+    $("abrir").hidden = true;
+    try { audio = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) { audio = null; }
+    roda();
+  }
+  $("abrir").addEventListener("click", comeca);
+  $("denovo").addEventListener("click", roda);
+  if (/[?&]auto\b/.test(location.search)) { $("abrir").hidden = true; roda(); }
+  window.__roda = roda;
+})();
+</script>
+</body>
+</html>
