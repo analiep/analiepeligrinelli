@@ -205,7 +205,7 @@ body{
   <button id="abrir" type="button">
     <span class="aviso">Mensagem recebida</span>
     <span class="anton grande">Toque para abrir</span>
-    <span class="toque">Dura 15 segundos. Depois some.</span>
+    <span class="toque">Dura 15 segundos. Depois some.<br>Aumenta o som 🔊</span>
   </button>
 
   <section class="cena" id="c1" aria-hidden="true">
@@ -341,7 +341,7 @@ body{
         for (var i = 0; i < d.length; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / d.length, tipo === "bum" ? 2 : .5);
         var s = audio.createBufferSource(); s.buffer = buf;
         var f = audio.createBiquadFilter(); f.type = "lowpass"; f.frequency.value = tipo === "bum" ? 500 : 4000;
-        s.connect(f); f.connect(g); g.gain.value = tipo === "bum" ? .9 : .12; s.start(t);
+        s.connect(f); f.connect(g); g.gain.value = tipo === "bum" ? .9 : .07; s.start(t);
       } else {
         var o = audio.createOscillator(); o.connect(g);
         o.type = tipo === "bip" ? "square" : "triangle";
@@ -350,6 +350,60 @@ body{
         o.start(t); o.stop(t + .2);
       }
     } catch (e) {}
+  }
+
+  /* trilha: batida eletrônica original, gerada no próprio navegador */
+  var trilha = { timer: null, prox: 0, passo: 0, modo: "groove", saida: null };
+  var ACORDES = [[220, 261.63, 329.63], [174.61, 220, 261.63], [261.63, 329.63, 392], [196, 246.94, 293.66]];
+  var BAIXO = [55, 43.65, 65.41, 49];
+  function env(g, t, a, v, d){ g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(v, t + a); g.gain.exponentialRampToValueAtTime(0.0001, t + d); }
+  function ruido(dur){ var b = audio.createBuffer(1, audio.sampleRate * dur, audio.sampleRate), d = b.getChannelData(0); for (var i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1; var s = audio.createBufferSource(); s.buffer = b; return s; }
+  function nota(tipo, freq, t, dur, vol, filtro){
+    var o = audio.createOscillator(), g = audio.createGain(); o.type = tipo; o.frequency.setValueAtTime(freq, t);
+    var saida = g;
+    if (filtro){ var fl = audio.createBiquadFilter(); fl.type = "lowpass"; fl.frequency.setValueAtTime(filtro, t); fl.Q.value = 6; o.connect(fl); fl.connect(g); } else o.connect(g);
+    g.connect(trilha.saida); env(g, t, .005, vol, dur); o.start(t); o.stop(t + dur + .05);
+    return o;
+  }
+  function bumbo(t, vol){
+    var o = audio.createOscillator(), g = audio.createGain(); o.frequency.setValueAtTime(150, t); o.frequency.exponentialRampToValueAtTime(42, t + .12);
+    o.connect(g); g.connect(trilha.saida); env(g, t, .002, vol || .9, .32); o.start(t); o.stop(t + .35);
+  }
+  function chiar(t, dur, freq, vol, tipo){
+    var s = ruido(dur), fl = audio.createBiquadFilter(), g = audio.createGain(); fl.type = tipo || "highpass"; fl.frequency.value = freq;
+    s.connect(fl); fl.connect(g); g.connect(trilha.saida); env(g, t, .002, vol, dur); s.start(t);
+  }
+  function tocaPasso(n, t){
+    var i = n % 16, compasso = Math.floor(n / 16) % 4, m = trilha.modo;
+    if (m === "tenso"){ if (i % 4 === 0) nota("square", 880, t, .08, .08); if (i % 2 === 1) chiar(t, .03, 9000, .05); return; }
+    if (m === "silencio") return;
+    var leve = m === "fim" ? .55 : 1;
+    if (i % 4 === 0) bumbo(t, .85 * leve);
+    if (i === 4 || i === 12) chiar(t, .16, 1500, .35 * leve, "bandpass");
+    if (i % 2 === 1) chiar(t, i % 4 === 3 ? .12 : .035, 8000, .12 * leve);
+    if ([0, 3, 6, 8, 10, 14].indexOf(i) >= 0) nota("sawtooth", BAIXO[compasso] * (i === 10 ? 2 : 1), t, .16, .32 * leve, 420 + (i * 40));
+    if (i === 2 || i === 7 || i === 10){ ACORDES[compasso].forEach(function(fq){ nota("square", fq, t, .11, .05 * leve, 2600); nota("sawtooth", fq * 1.006, t, .11, .035 * leve, 2600); }); }
+    if (i === 14 && compasso === 3) nota("triangle", 1318.5, t, .2, .06 * leve);
+  }
+  function agenda(){
+    var dur = 60 / 128 / 4;
+    while (trilha.prox < audio.currentTime + .12){ tocaPasso(trilha.passo, trilha.prox); trilha.prox += dur; trilha.passo++; }
+  }
+  function musica(){
+    if (!audio) return;
+    paraMusica();
+    trilha.saida = audio.createGain(); trilha.saida.gain.value = .5; trilha.saida.connect(audio.destination);
+    trilha.modo = "groove"; trilha.passo = 0; trilha.prox = audio.currentTime + .05;
+    trilha.timer = setInterval(agenda, 25);
+  }
+  function paraMusica(){
+    if (trilha.timer) clearInterval(trilha.timer); trilha.timer = null;
+    if (trilha.saida){ try { trilha.saida.gain.setTargetAtTime(0, audio.currentTime, .05); } catch (e) {} }
+  }
+  function apaga(){
+    if (!audio || !trilha.saida) return;
+    var t = audio.currentTime; trilha.saida.gain.setValueAtTime(trilha.saida.gain.value, t); trilha.saida.gain.linearRampToValueAtTime(0, t + 2.5);
+    em(2700, paraMusica);
   }
 
   function explode(){
@@ -369,6 +423,7 @@ body{
 
   function reset(){
     timers.forEach(clearTimeout); timers = [];
+    paraMusica();
     document.querySelectorAll(".in").forEach(function(e){ e.classList.remove("in"); });
     ["msg"].forEach(function(id){ $(id).classList.remove("risca", "cai"); });
     $("relogio").classList.remove("para");
@@ -398,6 +453,7 @@ body{
     reset();
     document.querySelectorAll(".tr").forEach(function(t){ t.remove(); });
     $("carimbo").classList.remove("engole");
+    musica();
     /* 1 · a mensagem volta */
     cena("c1"); som("chiado"); fala("Mensagem disponível por pouco tempo. Passando só pra te contar sobre amanhã.");
     em(450, function(){ $("msg").classList.add("risca"); som("pop"); });
@@ -437,10 +493,12 @@ body{
       em(11000 + k * 240, function(){ looks.forEach(function(l, j){ l.classList.toggle("on", j === k % looks.length); }); som("pop"); });
     })(k);
     em(11700, function(){ mostra("#c5 .chega"); });
-    em(12900, function(){ $("autod").classList.add("on"); $("num").textContent = "3"; som("bip"); fala("Esta mensagem se autodestruirá em 3, 2, 1."); });
+    em(12900, function(){ trilha.modo = "tenso"; $("autod").classList.add("on"); $("num").textContent = "3"; som("bip"); fala("Esta mensagem se autodestruirá em 3, 2, 1."); });
     em(13400, function(){ $("num").textContent = "2"; $("num").classList.remove("bum"); void $("num").offsetWidth; $("num").classList.add("bum"); som("bip"); });
     em(13900, function(){ $("num").textContent = "1"; $("num").classList.remove("bum"); void $("num").offsetWidth; $("num").classList.add("bum"); som("bip"); });
-    em(14400, explode);
+    em(14400, function(){ trilha.modo = "silencio"; explode(); });
+    em(15100, function(){ trilha.modo = "fim"; });
+    em(19500, apaga);
     em(15100, function(){ cena("c6"); fala("Festa da Ocasião, Analie e Thaíssa. Amanhã, quinta, 19 de novembro, às 19h30, no Bar 1953."); });
     em(16000, function(){ $("fogo").classList.remove("on"); $("fogo").innerHTML = ""; });
   }
